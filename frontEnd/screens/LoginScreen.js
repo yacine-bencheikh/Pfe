@@ -6,12 +6,15 @@ import { useAuthStore } from '../store/store';
 const LoginScreen = () => {
   const isAuth = useAuthStore(state => state.isAuth);
   const token = useAuthStore(state => state.token);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const setAuth = useAuthStore(state => state.setAuth);
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    setLoading(true);
     console.log(email + '\n' + password);
-    setAuth(email, password);
+    await setAuth(email, password);
+    setLoading(false)
     console.log(isAuth +'\n'+ token);
   }
   return (
@@ -43,7 +46,7 @@ const LoginScreen = () => {
           style={{ backgroundColor: '#10151b', color:'#b1b2b8' }}
         />
 
-      <TouchableOpacity  onPress={handleLogin} className='px-28 py-4 rounded-md justify-center items-center w-80 mb-6' style={{backgroundColor:'#0630F4'}}>
+      <TouchableOpacity  onPress={handleLogin} disabled={loading} className='px-28 py-4 rounded-md justify-center items-center w-80 mb-6' style={{backgroundColor:'#0630F4'}}>
         <Text style={{color:'#fff'}} className='font-bold text-lg' >LOG IN</Text>
       </TouchableOpacity >
       <Text style={styles.textColor} className='mb-4'>Or Sign in with social</Text>
