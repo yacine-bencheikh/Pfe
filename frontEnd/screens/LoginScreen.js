@@ -1,10 +1,19 @@
 import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useAuthStore } from '../store/store';
 
 const LoginScreen = () => {
+  const isAuth = useAuthStore(state => state.isAuth);
+  const token = useAuthStore(state => state.token);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const setAuth = useAuthStore(state => state.setAuth);
+  const handleLogin = () => {
+    console.log(email + '\n' + password);
+    setAuth(email, password);
+    console.log(isAuth +'\n'+ token);
+  }
   return (
     <SafeAreaView className='flex-1  justify-center items-center space-y-10' style={{ backgroundColor: "#080b12" }}>
       <View className='items-center space-y-4'>
@@ -34,7 +43,7 @@ const LoginScreen = () => {
           style={{ backgroundColor: '#10151b', color:'#b1b2b8' }}
         />
 
-      <TouchableOpacity onPress={()=>console.log("email " + email+"\n password " + password)} className='px-28 py-4 rounded-md justify-center items-center w-80 mb-6' style={{backgroundColor:'#0630F4'}}>
+      <TouchableOpacity  onPress={handleLogin} className='px-28 py-4 rounded-md justify-center items-center w-80 mb-6' style={{backgroundColor:'#0630F4'}}>
         <Text style={{color:'#fff'}} className='font-bold text-lg' >LOG IN</Text>
       </TouchableOpacity >
       <Text style={styles.textColor} className='mb-4'>Or Sign in with social</Text>

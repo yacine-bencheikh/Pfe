@@ -18,3 +18,22 @@ export const useDataStore = create((set) => ({
         }
     }
 }));
+
+export const useAuthStore = create((set) => ({
+    isAuth: false,
+    token: "",
+    setToken: (token) => set({ token: token }),
+    setAuth: async (email,password) => {
+        try {
+            const response = await axios.post("http://10.0.2.2:3100/api/users/login",{
+                email: email,
+                password: password
+            });
+            const token = response.data.token;
+            set({ isAuth: true, token: token });
+
+        } catch (error) {
+            console.log("can't set auth \n", error);
+        }
+    }
+}));
