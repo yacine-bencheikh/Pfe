@@ -10,19 +10,8 @@ authmiddleware = async (req, res, next) => {
             const token = req.headers.authorization.split(" ")[1]
             const decoded = jwt.verify(token, process.env.SECRET_KEY)
             if (decoded.userId && decoded.email) {
-                try {
-                    req.user = await User.findByPk(decoded.userId,
-                        { all: true, nested: true }
-                    )
+                    req.userId = decoded.userId
                     next()
-                } catch (error) {
-                    res.status(401).send(
-                        {
-                            message: 'Authentication failed',
-                            error
-                        }
-                    )
-                }
             }
             else {
                 res.status(401).send({ message: 'Authentication failed' })

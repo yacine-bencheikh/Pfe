@@ -16,18 +16,16 @@ module.exports = {
             });
         } catch (error) {
             console.log(error);
-            // res.status(500).send({
-            //     message: "Error hashing password",
-            //     error
-            // });
+            res.status(500).send({
+                message: "Error hashing password",
+                error
+            });
         }
     },
     login: async (req, res) => {
         try {
             const result = await User.findOne({ where: { email: req.body.email } });
-            // console.log(result);
             const passChecked = await bcrypt.compare(req.body.password, result.password);
-            console.log(passChecked);
             if (!passChecked) {
                 res.status(403).send({
                     message: 'wrong password',
@@ -38,8 +36,8 @@ module.exports = {
                 userId: result.id,
                 email: result.email
             },
-                process.env.SECRET_KEY,
-                { expiresIn: "24h" }
+            process.env.SECRET_KEY,
+            { expiresIn: "24h" }
             );
             res.status(200).json({
                 message: "token created successfully",
@@ -53,47 +51,55 @@ module.exports = {
             });
         }
     },
-    getOne: async (req, res) => {                                   // need test
+    getOne: async (req, res) => {
         try {
-            res.status(200).send(req.user);
+            const user = await User.findOne({ where: { id: req.userId } });
+            res.status(200).send(user);
         } catch (error) {
             res.status(400).send({ message: 'you need to authenticate', error: error });
         }
     },
+    getCrew: async (req, res) => {
+        try {
+            const users = await User.findAll({ where: { createdBy: req.userId } });
+            res.status(200).json(users);
+        } catch (error) {
+            console.log(error);
+        }
+    },
     deleteOneUser: async (req, res) => {
         try {
-            const trush = await User.findOne({ where: { id: req.params.id } })
-            const bay = await User.destroy({ where: { id: req.params.id } })
-            res.status(200).json(trush)
+            const trush = await User.findOne({ where: { id: req.params.id } });
+            const bay = await User.destroy({ where: { id: req.params.id } });
+            res.status(200).json(trush);
         } catch (error) {
             console.log(error);
         }
     },
     getAllUsers: async (req, res) => {
         try {
-            const users = await User.findAll()
-            res.status(200).json(users)
+            const users = await User.findAll();
+            res.status(200).json(users);
         } catch (error) {
             console.log(error);
         }
     },
     updateUser: async (req, res) => {
         try {
-            const oldData = await User.findOne({ where: { id: req.params.id } })
+            const oldData = await User.findOne({ where: { id: req.params.id } });
             if (oldData.password !== req.body.password) {
-                const hashedPassword = await bcrypt.hash(req.body.password, 10)
+                const hashedPassword = await bcrypt.hash(req.body.password, 10);
                 const user = await User.update({
                     ...req.body,
                     password: hashedPassword
-                }, { where: { id: req.params.id } })
+                }, { where: { id: req.params.id } });
             } else {
-                await User.update(req.body, { where: { id: req.params.id } })
+                await User.update(req.body, { where: { id: req.params.id } });
             }
-            const newData = await User.findOne({ where: { id: req.params.id } })
-            res.status(200).json(newData)
+            const newData = await User.findOne({ where: { id: req.params.id } });
+            res.status(200).json(newData);
         } catch (error) {
             console.log(error);
         }
     }
-
 };
