@@ -3,6 +3,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeButton from '../components/HomeButton';
 
+
 function HomeScreen({ navigation }) {
     return (
         <SafeAreaView className='flex-1 bg-blue-200  items-center justify-center'>
@@ -13,8 +14,8 @@ function HomeScreen({ navigation }) {
             </View>
             <View>
                 <HomeButton title={'Nouvelle réservation de profil'} onPress={()=>navigation.navigate('DetailStack')} />
-                <HomeButton title={'Détails des réservations'} />
-                <HomeButton title={'Gestion des utilisateurs'} />
+                <HomeButton title={'Détails des réservations'}  />
+                <HomeButton title={'Gestion des utilisateurs'} onPress={()=>navigation.navigate('MangeUsersStack')} />
                 <HomeButton title={'Uploder un fichier'} />
                 <HomeButton title={'Statistiques'} />
 

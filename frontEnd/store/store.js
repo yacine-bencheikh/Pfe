@@ -20,6 +20,7 @@ export const useDataStore = create((set) => ({
 }));
 
 export const useAuthStore = create((set) => ({
+    user: {},
     isAuth: false,
     token: "",
     setToken: (token) => set({ token: token }),
@@ -30,8 +31,7 @@ export const useAuthStore = create((set) => ({
                 password: password
             });
             const token = response.data.token;
-            set({ isAuth: true, token: token });
-
+            set({ isAuth: true, token: token, user: response.data.user});
         } catch (error) {
             console.log("can't set auth \n", error);
         }
