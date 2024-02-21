@@ -51,10 +51,10 @@ const LoginScreen = () => {
       </TouchableOpacity >
       <Text style={styles.textColor} className='mb-4'>Or Sign in with social</Text>
       <View className='flex-row space-x-6'>
-        <TouchableOpacity style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >
+        <TouchableOpacity onPress={()=>console.log(isAuth)} style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >
           <Image source={require('../assets/google.png')} resizeMode='contain' style={{ width: 30, height: 30,tintColor:'#b1b2b8' }} />
         </TouchableOpacity>
-        <TouchableOpacity  style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >
+        <TouchableOpacity  onPress={()=>console.log(token)} style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >
           <Image source={require('../assets/facebook.png')} resizeMode='contain' style={{ width: 30, height: 30 ,tintColor:'#b1b2b8' }}  />
         </TouchableOpacity>
       </View>
