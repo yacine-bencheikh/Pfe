@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuthStore } from '../store/store';
 
-const LoginScreen = () => {
-  const isAuth = useAuthStore(state => state.isAuth);
+const LoginScreen = ({navigation}) => {
+  
   const token = useAuthStore(state => state.token);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -15,7 +15,10 @@ const LoginScreen = () => {
     console.log(email + '\n' + password);
     await setAuth(email, password);
     setLoading(false)
-    console.log(isAuth +'\n'+ token);
+    console.log('\n'+ token);
+    if(!!token){
+      navigation.navigate('HomeStack')
+    }
   }
   return (
     <SafeAreaView className='flex-1  justify-center items-center space-y-10' style={{ backgroundColor: "#080b12" }}>
@@ -51,7 +54,7 @@ const LoginScreen = () => {
       </TouchableOpacity >
       <Text style={styles.textColor} className='mb-4'>Or Sign in with social</Text>
       <View className='flex-row space-x-6'>
-        <TouchableOpacity onPress={()=>console.log(isAuth)} style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >
+        <TouchableOpacity onPress={()=>console.log()} style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >
           <Image source={require('../assets/google.png')} resizeMode='contain' style={{ width: 30, height: 30,tintColor:'#b1b2b8' }} />
         </TouchableOpacity>
         <TouchableOpacity  onPress={()=>console.log(token)} style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >

@@ -1,15 +1,21 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PlusButton from '../components/PlusButton'
 import AgentCard from '../components/AgentCard'
-
+import { useAgentStore } from '../store/store'
+import { useAuthStore } from '../store/store'
 const MangeUsersScreen = () => {
+    const token = useAuthStore(state => state.token);
+    const setAgents = useAgentStore(state => state.setAgents);
+    const agents = useAgentStore(state => state.agents);
+    useEffect(() => {setAgents(token._j)}, [token])
     return (
         <View className=' m-4 my-2'>
             <Text className='font-bold text-xl mb-4'>Your Users</Text>
             <ScrollView  style={{maxHeight:600, marginBottom:12}}>
-                <AgentCard />
-                <AgentCard />
+                {agents.map((agent, index) => {
+                    return <AgentCard key={index} agent={agent} />
+                })}
                 
             </ScrollView>
             <PlusButton/>

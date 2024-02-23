@@ -5,44 +5,28 @@ import axios from "axios";
 const storeToken = async (token) => {
     try {
         await AsyncStorage.setItem('@storage_Key', token)
+        // adeddd  
     } catch (e) {
         console.log("can't store token \n", e);
     }
 }
 
+
 const getToken = async () => {
     try {
         const value = await AsyncStorage.getItem('@storage_Key')
-        if(value !== null) {
+        if (value !== null) {
             return value;
         }
-    } catch(e) {
+    } catch (e) {
         console.log("can't get token \n", e);
     }
     return "";
 }
 
-export const useCountStore = create((set) => ({
-    count: 0,
-    increment: () => set((state) => ({ count: state.count + 1 })),
-    decrement: () => set((state) => ({ count: state.count - 1 })),
-}))
-
-export const useDataStore = create((set) => ({
-    data: [],
-    setData: async () => {
-        try {
-            const response = await axios.get("http://10.0.2.2:3100/api/users/getAll");
-            set({ data: response.data });
-        } catch (error) {
-            console.log("can't fetch data \n", error);
-        }
-    }
-}));
 
 export const useAuthStore = create((set) => ({
     user: {},
-    isAuth: false,
     token: getToken(),
     setToken: (token) => set({ token: token }),
     setAuth: async (email, password) => {
@@ -53,9 +37,35 @@ export const useAuthStore = create((set) => ({
             });
             const token = response.data.token;
             storeToken(token);
-            set({ isAuth: !!token, token: token, user: response.data.userId });
+            set({ token: token, user: response.data.userId });
         } catch (error) {
             console.log("can't set auth \n", error);
+        }
+    },
+    logOut: async (navigation) => {
+        try {
+            await AsyncStorage.removeItem('@storage_Key');
+            set({ token: "", user: {} });
+            navigation.navigate('Login')
+        } catch (error) {
+            console.log("can't log out \n", error);
+        }
+    }
+
+}));
+
+export const useAgentStore = create((set) => ({
+    agents: [],
+    setAgents: async (token) => {
+        try {
+            const response = await axios.get("http://10.0.2.2:3100/api/users/getCrew", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            set({ agents: response.data });
+        } catch (error) {
+            console.log("can't set agents \n", error);
         }
     }
 }));

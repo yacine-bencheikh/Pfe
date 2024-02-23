@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const AgentCard = () => {
+const AgentCard = ({agent}) => {
     return (
         <View className='space-y-3 mb-3' >  
         <View className='flex-row items-center space-x-3 bg-slate-300 rounded-2xl'>
