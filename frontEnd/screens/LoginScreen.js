@@ -43,7 +43,6 @@ const LoginScreen = ({navigation}) => {
           onChangeText={setPassword}
           placeholder='Password '
           placeholderTextColor='#b1b2b8'
-          
           secureTextEntry
           className='border border-black-300 rounded-md px-5 py-4 w-80 mb-4'
           style={{ backgroundColor: '#10151b', color:'#b1b2b8' }}
