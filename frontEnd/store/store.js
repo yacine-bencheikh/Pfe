@@ -69,5 +69,34 @@ export const useAgentStore = create((set) => ({
         } catch (error) {
             console.log("can't set agents \n", error);
         }
+    },
+    deleteAgent: async (id, token) => {
+        try {
+            console.log(id, token);
+            await axios.delete(`http://10.0.2.2:3100/api/users/destroy/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            set(state => ({ agents: state.agents.filter(agent => agent.id !== id) }));
+        } catch (error) {
+            console.log("can't delete agent \n", error);
+        }
+    },
+    updateAgent: async (id, updatedData, token) => {
+        try {
+            const response = await axios.put(`http://10.0.2.2:3100/api/users/${id}`, updatedData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            set(state => ({
+                agents: state.agents.map(agent => 
+                    agent.id === id ? {...agent, ...response.data} : agent
+                )
+            }));
+        } catch (error) {
+            console.log("can't update agent \n", error);
+        }
     }
 }));

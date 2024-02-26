@@ -9,8 +9,8 @@ userRoute.post('/login', login)
 userRoute.get('/getOne',authmiddleware,getOne)
 userRoute.get('/getCrew',authmiddleware,getCrew)
 userRoute.get('/getAll',getAllUsers)
-userRoute.delete('/destroy/:id',deleteOneUser)
-userRoute.patch("/update/:id",updateUser)
+userRoute.delete('/destroy/:id',authmiddleware,deleteOneUser)
+userRoute.patch("/update/:id",authmiddleware,updateUser)
 
 
 
