@@ -26,7 +26,7 @@ const getToken = async () => {
 
 
 export const useAuthStore = create((set) => ({
-    user: {},
+    user: 0,
     token: getToken(),
     setToken: (token) => set({ token: token }),
     setAuth: async (email, password) => {
@@ -56,6 +56,8 @@ export const useAuthStore = create((set) => ({
 
 export const useAgentStore = create((set) => ({
     agents: [],
+    currentAgent: {},
+    setCurrentAgent: (agent) => set({ currentAgent: agent }),
     setAgents: async (token) => {
         try {
             const response = await axios.get("http://10.0.2.2:3100/api/users/getCrew", {
