@@ -7,10 +7,11 @@ import { useAuthStore } from '../store/store'
 import DeleteModal from '../components/DeleteModal'
 import UpdateModal from '../components/UpdateModal'
 const MangeUsersScreen = ({ navigation }) => {
-    const token = useAuthStore(state => state.token);
+    const token = useAuthStore(state => state.token._j) || useAuthStore(state => state.token);
+    console.log(token);
     const setAgents = useAgentStore(state => state.setAgents);
     const agents = useAgentStore(state => state.agents);
-    useEffect(() => { setAgents(token._j) }, [token])
+    useEffect(() => { setAgents(token) }, [token])
     const [modalVisible, setModalVisible] = useState(false);
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
     return (

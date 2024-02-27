@@ -5,7 +5,7 @@ import { useAuthStore } from '../store/store';
 
 
 const CreateUserScreen = () => {
-    const id = useAuthStore(state => state.user);
+    const id = useAuthStore(state => state.user._j) || useAuthStore(state => state.user);
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([
         { label: 'admin', value: 'admin' },

@@ -10,6 +10,13 @@ const storeToken = async (token) => {
         console.log("can't store token \n", e);
     }
 }
+const storeId = async (id) => {
+    try {
+        await AsyncStorage.setItem('@storage_Id', id.toString())
+    } catch (e) {
+        console.log("can't store id \n", e);
+    }
+}
 
 
 const getToken = async () => {
@@ -23,10 +30,21 @@ const getToken = async () => {
     }
     return "";
 }
-
+const getId = async () => {
+    try {
+        const value = await AsyncStorage.getItem('@storage_Id')
+        if (value !== null) {
+            return Number(value);
+        }
+    }
+    catch (e) {
+        console.log("can't get id \n", e);
+    }
+    return 0;
+}
 
 export const useAuthStore = create((set) => ({
-    user: 0,
+    user: getId(),
     token: getToken(),
     setToken: (token) => set({ token: token }),
     setAuth: async (email, password) => {
@@ -37,7 +55,10 @@ export const useAuthStore = create((set) => ({
             });
             const token = response.data.token;
             storeToken(token);
+            const id = response.data.userId;
+            storeId(id);
             set({ token: token, user: response.data.userId });
+            console.log(token, '\n',id);
         } catch (error) {
             console.log("can't set auth \n", error);
         }
@@ -45,7 +66,8 @@ export const useAuthStore = create((set) => ({
     logOut: async (navigation) => {
         try {
             await AsyncStorage.removeItem('@storage_Key');
-            set({ token: "", user: {} });
+            await AsyncStorage.removeItem('@storage_Id');
+            set({ token: "", user: 0 });
             navigation.navigate('Login')
         } catch (error) {
             console.log("can't log out \n", error);
@@ -60,6 +82,7 @@ export const useAgentStore = create((set) => ({
     setCurrentAgent: (agent) => set({ currentAgent: agent }),
     setAgents: async (token) => {
         try {
+            // console.log(token);
             const response = await axios.get("http://10.0.2.2:3100/api/users/getCrew", {
                 headers: {
                     'Authorization': `Bearer ${token}`
