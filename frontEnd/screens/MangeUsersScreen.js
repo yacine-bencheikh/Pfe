@@ -18,7 +18,7 @@ const MangeUsersScreen = ({ navigation }) => {
             <Text className='font-bold text-xl mb-4'>Your Users</Text>
             <ScrollView style={{ maxHeight: 600, marginBottom: 12 }}>
                 {agents.map((agent, index) => {
-                    return <AgentCard key={index} agent={agent} setModalVisible={setModalVisible} setUpdateModalVisible={setUpdateModalVisible} />
+                    return <AgentCard key={index} agent={agent} setModalVisible={setModalVisible} setUpdateModalVisible={setUpdateModalVisible}  updateModalVisible={updateModalVisible} />
                 })}
             </ScrollView>
             <DeleteModal modalVisible={modalVisible} setModalVisible={setModalVisible} />

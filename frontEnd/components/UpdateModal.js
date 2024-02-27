@@ -1,9 +1,10 @@
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { useAgentStore } from '../store/store'
+import { useAuthStore } from '../store/store'
 import React, { useState } from 'react'
 import lodash from 'lodash'
 const UpdateModal = ({ setUpdateModalVisible, updateModalVisible }) => {
-  const token = useAgentStore(state => state.token)
+  const token = useAuthStore(state => state.token)
   const updateAgent = useAgentStore(state => state.updateAgent)
   const currentAgent = useAgentStore(state => state.currentAgent)
   const [switche, setSwitche] = useState(true)
@@ -19,6 +20,16 @@ const UpdateModal = ({ setUpdateModalVisible, updateModalVisible }) => {
     const date = new Date(dateString);
     return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   }
+  function hasSameProperties(obj1, obj2) {
+    for (let key in obj1) {
+        if (obj1.hasOwnProperty(key)) {
+            if (!obj2.hasOwnProperty(key) || obj1[key] !== obj2[key]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
   const handleUpdate = (token) => {
     const updatedData = {
       firstName,
@@ -32,11 +43,13 @@ const UpdateModal = ({ setUpdateModalVisible, updateModalVisible }) => {
     }
     if(switche){
       setSwitche(!switche)
-    }else if(!switche && lodash.isEqual(updatedData, currentAgent)){
+    }else if(!switche && hasSameProperties(updatedData, currentAgent)){
       setUpdateModalVisible(!updateModalVisible)
-    }else if (!switche && !lodash.isEqual(updatedData, currentAgent)) {
-    updateAgent(currentAgent.id, updatedData, token)
+    }else if (!switche && !hasSameProperties(updatedData, currentAgent)) {
+      console.log(token._j);
+    updateAgent(currentAgent.id, updatedData, token._j)
   }
+}
   
 
   return (
@@ -107,14 +120,14 @@ const UpdateModal = ({ setUpdateModalVisible, updateModalVisible }) => {
           }
           <View className='flex-row space-x-4 mt-10'>
             <TouchableOpacity className='rounded-2xl bg-blue-400 py-2 px-4' onPress={() => { setUpdateModalVisible(!updateModalVisible); setSwitche(!switche) }} ><Text>no</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => { handleUpdate(token._j) }} className='rounded-2xl bg-yellow-300 py-2 px-4' ><Text>Update</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => { handleUpdate(token) }} className='rounded-2xl bg-yellow-300 py-2 px-4' ><Text>Update</Text></TouchableOpacity>
           </View>
         </View>
       </View>
     </Modal>
   )
 }
-}
+
 
 export default UpdateModal
 

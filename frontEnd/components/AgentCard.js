@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useAgentStore } from '../store/store'
 
-const AgentCard = ({ agent,setModalVisible,setUpdateModalVisible }) => {
+const AgentCard = ({ agent,setModalVisible,setUpdateModalVisible, updateModalVisible }) => {
     const setCurrentAgent = useAgentStore(state => state.setCurrentAgent);
 
     return (
@@ -20,7 +20,7 @@ const AgentCard = ({ agent,setModalVisible,setUpdateModalVisible }) => {
                     <TouchableOpacity onPress={()=>{setCurrentAgent(agent);setModalVisible(true)}} className='p-3  bg-orange-500 w-14 items-center rounded-tl-2xl rounded-br-2xl'><Text>X</Text></TouchableOpacity>
                 </View>
             </TouchableOpacity>
-
+            
         </View>
     )
 }
