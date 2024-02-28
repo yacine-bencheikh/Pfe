@@ -1,10 +1,9 @@
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { useAgentStore } from '../store/store'
 import { useAuthStore } from '../store/store'
-import React, { useState } from 'react'
-import lodash from 'lodash'
+import React, { useState, useEffect } from 'react'
 const UpdateModal = ({ setUpdateModalVisible, updateModalVisible }) => {
-  const token = useAuthStore(state => state.token)
+  const token = useAuthStore(state => state.token._j) || useAuthStore(state => state.token)
   const updateAgent = useAgentStore(state => state.updateAgent)
   const currentAgent = useAgentStore(state => state.currentAgent)
   const [switche, setSwitche] = useState(true)
@@ -20,16 +19,7 @@ const UpdateModal = ({ setUpdateModalVisible, updateModalVisible }) => {
     const date = new Date(dateString);
     return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   }
-  function hasSameProperties(obj1, obj2) {
-    for (let key in obj1) {
-        if (obj1.hasOwnProperty(key)) {
-            if (!obj2.hasOwnProperty(key) || obj1[key] !== obj2[key]) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
+
   const handleUpdate = (token) => {
     const updatedData = {
       firstName,
@@ -41,16 +31,25 @@ const UpdateModal = ({ setUpdateModalVisible, updateModalVisible }) => {
       address,
       role
     }
-    if(switche){
+    if (switche) {
+      console.log(1);
       setSwitche(!switche)
-    }else if(!switche && hasSameProperties(updatedData, currentAgent)){
-      setUpdateModalVisible(!updateModalVisible)
-    }else if (!switche && !hasSameProperties(updatedData, currentAgent)) {
-      console.log(token._j);
-    updateAgent(currentAgent.id, updatedData, token._j)
+    } else {
+      console.log(updatedData);
+      updateAgent(currentAgent.id, updatedData, token)
+      setSwitche(!switche)
+    }
   }
-}
-  
+  useEffect(() => {
+    setFirstName(currentAgent.firstName);
+    setLastName(currentAgent.lastName);
+    setEmail(currentAgent.email);
+    setPassword(currentAgent.password);
+    setPhone(currentAgent.phone);
+    setMobile(currentAgent.mobile);
+    setAddress(currentAgent.address);
+    setRole(currentAgent.role);
+  }, [currentAgent]);
 
   return (
     <Modal
@@ -78,49 +77,49 @@ const UpdateModal = ({ setUpdateModalVisible, updateModalVisible }) => {
             <View className=' justify-center p-2'>
               <View className='flex-row justify-between mb-2 items-center' >
                 <Text>First name: </Text>
-                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={currentAgent.firstName.substring(0, 8)} onChangeText={text => setFirstName(text)}
+                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={(currentAgent.firstName || "").substring(0, 8)} onChangeText={text => setFirstName(text)}
                   value={firstName} />
               </View>
               <View className='flex-row justify-between mb-2 items-center' >
                 <Text>Last name: </Text>
-                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={currentAgent.lastName} onChangeText={text => setLastName(text)}
+                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={(currentAgent.lastName || "")} onChangeText={text => setLastName(text)}
                   value={lastName} />
               </View>
               <View className='flex-row justify-between mb-2 items-center' >
                 <Text>Email: </Text>
-                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={currentAgent.email.substring(0, 8)} onChangeText={text => setEmail(text)}
+                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={(currentAgent.email || "").substring(0, 8)} onChangeText={text => setEmail(text)}
                   value={email} />
               </View>
               <View className='flex-row justify-between mb-2 items-center' >
                 <Text>Password: </Text>
-                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={currentAgent.password.substring(0, 8)} onChangeText={text => setPassword(text)}
+                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={(currentAgent.password || "").substring(0, 8)} onChangeText={text => setPassword(text)}
                   value={password} />
               </View>
               <View className='flex-row justify-between mb-2 items-center' >
                 <Text>Phone: </Text>
-                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={currentAgent.phone.substring(0, 8)} onChangeText={text => setPhone(text)}
+                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={(currentAgent.phone || "").substring(0, 8)} onChangeText={text => setPhone(text)}
                   value={phone} />
               </View>
               <View className='flex-row justify-between mb-2 items-center' >
                 <Text>Mobile: </Text>
-                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={currentAgent.mobile.substring(0, 8)} onChangeText={text => setMobile(text)}
+                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={(currentAgent.mobile || "").substring(0, 8)} onChangeText={text => setMobile(text)}
                   value={mobile} />
               </View>
               <View className='flex-row justify-between mb-2 items-center' >
                 <Text>Adress:</Text>
-                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={currentAgent.address.substring(0, 8)} onChangeText={text => setAddress(text)}
+                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={(currentAgent.address || "").substring(0, 8)} onChangeText={text => setAddress(text)}
                   value={address} />
               </View>
               <View className='flex-row justify-between mb-2 items-center' >
                 <Text>Role: </Text>
-                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={currentAgent.role.substring(0, 8)} onChangeText={text => setRole(text)}
+                <TextInput className='border rounded-2xl w-1/2 pl-2' placeholder={(currentAgent.role || "").substring(0, 8)} onChangeText={text => setRole(text)}
                   value={role} />
               </View>
             </View>
           }
           <View className='flex-row space-x-4 mt-10'>
-            <TouchableOpacity className='rounded-2xl bg-blue-400 py-2 px-4' onPress={() => { setUpdateModalVisible(!updateModalVisible); setSwitche(!switche) }} ><Text>no</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => { handleUpdate(token) }} className='rounded-2xl bg-yellow-300 py-2 px-4' ><Text>Update</Text></TouchableOpacity>
+            <TouchableOpacity className='rounded-2xl bg-blue-400 py-2 px-4' onPress={() => { setUpdateModalVisible(!updateModalVisible); setSwitche(true) }} ><Text>no</Text></TouchableOpacity>
+            <TouchableOpacity onPress={()=>{handleUpdate(token)}} className='rounded-2xl bg-yellow-300 py-2 px-4' ><Text>Update</Text></TouchableOpacity>
           </View>
         </View>
       </View>

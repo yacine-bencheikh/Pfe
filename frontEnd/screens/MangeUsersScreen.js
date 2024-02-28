@@ -8,7 +8,6 @@ import DeleteModal from '../components/DeleteModal'
 import UpdateModal from '../components/UpdateModal'
 const MangeUsersScreen = ({ navigation }) => {
     const token = useAuthStore(state => state.token._j) || useAuthStore(state => state.token);
-    console.log(token);
     const setAgents = useAgentStore(state => state.setAgents);
     const agents = useAgentStore(state => state.agents);
     useEffect(() => { setAgents(token) }, [token])

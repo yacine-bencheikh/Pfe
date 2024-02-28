@@ -78,7 +78,7 @@ export const useAuthStore = create((set) => ({
 
 export const useAgentStore = create((set) => ({
     agents: [],
-    currentAgent: {},
+    currentAgent: {},  
     setCurrentAgent: (agent) => set({ currentAgent: agent }),
     setAgents: async (token) => {
         try {
@@ -106,9 +106,9 @@ export const useAgentStore = create((set) => ({
             console.log("can't delete agent \n", error);
         }
     },
-    updateAgent: async (id, updatedData, token) => {
+    updateAgent: async (id, updatedData,token) => {
         try {
-            const response = await axios.put(`http://10.0.2.2:3100/api/users/${id}`, updatedData, {
+            const response = await axios.patch(`http://10.0.2.2:3100/api/users/update/${id}`, updatedData,{
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
