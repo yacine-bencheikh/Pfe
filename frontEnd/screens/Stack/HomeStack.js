@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import HomeScreen from "../HomeScreen";
 import DetailStack from "./DtailStack";
 import MangeUsersStack from "./MangeUsersStack";
+import UploadFileStack from "./UploadFileStack";
 const Stack = createStackNavigator()
 function HomeStack() {
     return (
@@ -9,6 +10,7 @@ function HomeStack() {
             <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}} />
             <Stack.Screen name="DetailStack" component={DetailStack} options={{ headerShown: false }} />
             <Stack.Screen name="MangeUsersStack" component={MangeUsersStack} options={{ headerShown: false }} />
+            <Stack.Screen name="UploadFileStack" component={UploadFileStack} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

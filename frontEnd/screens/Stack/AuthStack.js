@@ -11,7 +11,7 @@ const AuthStack = () => {
         <Stack.Navigator>
             <Stack.Screen name="Login" component={LoginScreen} options={{headerShown : false}} />
             <Stack.Screen name="FaceIdAuthStack" component={FaceIdAuthStack} options={{headerShown : false}} />
-            <Stack.Screen name="HomeStack" component={HomeStack} />
+            <Stack.Screen name="HomeStack" component={HomeStack} options={{headerShown:false}} />
         </Stack.Navigator>
     )
 }

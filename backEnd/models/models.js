@@ -100,6 +100,7 @@ const Reservation = connection.define('Reservation', {
     }
 })
 
+
 User.hasMany(Reservation);
 Reservation.belongsTo(User);
 // connection.sync({ force: true });

@@ -7,8 +7,8 @@ const Tojrab = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: 'Java', value: 'java' },
-    { label: 'JavaScript', value: 'js' }
+    { label: 'Sim swap', value: 'sim swap' },
+    { label: 'Nouvelle acquisation', value: 'Nouvelle acquisation' }
   ]);
   return (
     <View className='flex-1 bg-blue-50 justify-center items-center' >
