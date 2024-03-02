@@ -11,7 +11,7 @@ export default function App() {
     <PaperProvider>
     <NavigationContainer>
 
-      {!!token ? <HomeStack/> : <AuthStack/>}
+      {!!token._j ? <HomeStack/> : <AuthStack/>}
       <StatusBar style="auto" />
     </NavigationContainer>
     </PaperProvider>

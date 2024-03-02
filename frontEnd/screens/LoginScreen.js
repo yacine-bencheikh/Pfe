@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuthStore } from '../store/store';
 
-const LoginScreen = ({navigation}) => {
-  
+const LoginScreen = ({ navigation }) => {
+
   const token = useAuthStore(state => state.token);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -15,8 +15,8 @@ const LoginScreen = ({navigation}) => {
     console.log(email + '\n' + password);
     await setAuth(email, password);
     setLoading(false)
-    console.log('\n'+ token);
-    if(!!token){
+    console.log('\n' + token);
+    if (!!token) {
       navigation.navigate('HomeStack')
     }
   }
@@ -36,7 +36,7 @@ const LoginScreen = ({navigation}) => {
           keyboardType='email-address'
           autoCapitalize='none'
           className='border border-black-300 rounded-md px-5 py-4 w-80'
-          style={{ backgroundColor: '#10151b', color:'#b1b2b8' }}
+          style={{ backgroundColor: '#10151b', color: '#b1b2b8' }}
         />
         <TextInput
           value={password}
@@ -45,21 +45,23 @@ const LoginScreen = ({navigation}) => {
           placeholderTextColor='#b1b2b8'
           secureTextEntry
           className='border border-black-300 rounded-md px-5 py-4 w-80 mb-4'
-          style={{ backgroundColor: '#10151b', color:'#b1b2b8' }}
+          style={{ backgroundColor: '#10151b', color: '#b1b2b8' }}
         />
 
-      <TouchableOpacity  onPress={handleLogin} disabled={loading} className='px-28 py-4 rounded-md justify-center items-center w-80 mb-6' style={{backgroundColor:'#0630F4'}}>
-        <Text style={{color:'#fff'}} className='font-bold text-lg' >LOG IN</Text>
-      </TouchableOpacity >
-      <Text style={styles.textColor} className='mb-4'>Or Sign in with social</Text>
-      <View className='flex-row space-x-6'>
-        <TouchableOpacity onPress={()=>console.log()} style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >
-          <Image source={require('../assets/google.png')} resizeMode='contain' style={{ width: 30, height: 30,tintColor:'#b1b2b8' }} />
+        <TouchableOpacity onPress={handleLogin} disabled={loading} className='px-28 py-4 rounded-md justify-center items-center w-80 mb-6' style={{ backgroundColor: '#0630F4' }}>
+          <Text style={{ color: '#fff' }} className='font-bold text-lg' >LOG IN</Text>
+        </TouchableOpacity >
+        <TouchableOpacity onPress={()=>{navigation.navigate('FaceIdAuthStack')}} >
+          <Text style={styles.textColor} className='mb-4'>Or Sign in with face identification</Text>
         </TouchableOpacity>
-        <TouchableOpacity  onPress={()=>console.log(token)} style={{backgroundColor: '#10151b'}} className='p-4 rounded-full' >
-          <Image source={require('../assets/facebook.png')} resizeMode='contain' style={{ width: 30, height: 30 ,tintColor:'#b1b2b8' }}  />
-        </TouchableOpacity>
-      </View>
+        <View className='flex-row space-x-6'>
+          <TouchableOpacity onPress={() => console.log()} style={{ backgroundColor: '#10151b' }} className='p-4 rounded-full' >
+            <Image source={require('../assets/google.png')} resizeMode='contain' style={{ width: 30, height: 30, tintColor: '#b1b2b8' }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log(token)} style={{ backgroundColor: '#10151b' }} className='p-4 rounded-full' >
+            <Image source={require('../assets/facebook.png')} resizeMode='contain' style={{ width: 30, height: 30, tintColor: '#b1b2b8' }} />
+          </TouchableOpacity>
+        </View>
       </View>
 
 
