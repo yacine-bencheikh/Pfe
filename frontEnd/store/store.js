@@ -123,3 +123,10 @@ export const useAgentStore = create((set) => ({
         }
     }
 }));
+export const useReservationStore = create((set)=>({
+    profileType: "",
+    reservation: {},
+    setProfileType: (type) => set({profileType: type}),
+    setReservation: (res) => set({reservation: res}),
+
+}))
