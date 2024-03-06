@@ -58,7 +58,7 @@ export const useAuthStore = create((set) => ({
             const id = response.data.userId;
             storeId(id);
             set({ token: token, user: response.data.userId });
-            console.log(token, '\n',id);
+            console.log(token, '\n', id);
         } catch (error) {
             console.log("can't set auth \n", error);
         }
@@ -78,7 +78,7 @@ export const useAuthStore = create((set) => ({
 
 export const useAgentStore = create((set) => ({
     agents: [],
-    currentAgent: {},  
+    currentAgent: {},
     setCurrentAgent: (agent) => set({ currentAgent: agent }),
     setAgents: async (token) => {
         try {
@@ -106,16 +106,16 @@ export const useAgentStore = create((set) => ({
             console.log("can't delete agent \n", error);
         }
     },
-    updateAgent: async (id, updatedData,token) => {
+    updateAgent: async (id, updatedData, token) => {
         try {
-            const response = await axios.patch(`http://10.0.2.2:3100/api/users/update/${id}`, updatedData,{
+            const response = await axios.patch(`http://10.0.2.2:3100/api/users/update/${id}`, updatedData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
             set(state => ({
-                agents: state.agents.map(agent => 
-                    agent.id === id ? {...agent, ...response.data} : agent
+                agents: state.agents.map(agent =>
+                    agent.id === id ? { ...agent, ...response.data } : agent
                 )
             }));
         } catch (error) {
@@ -123,10 +123,19 @@ export const useAgentStore = create((set) => ({
         }
     }
 }));
-export const useReservationStore = create((set)=>({
+export const useReservationStore = create((set) => ({
     profileType: "",
     reservation: {},
-    setProfileType: (type) => set({profileType: type}),
-    setReservation: (res) => set({reservation: res}),
+    setProfileType: (type) => set({ profileType: type }),
+    setReservation: (res) => set({ reservation: res }),
+    annulerReservation: async (reservation,navigation) => {
+        try {
+            const response = await axios.patch("http://10.0.2.2:3100/api/reservations/cancelRes", reservation)
+            navigation.navigate("HomeScreen");
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 }))

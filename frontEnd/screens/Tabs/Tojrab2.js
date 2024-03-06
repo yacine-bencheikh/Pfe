@@ -5,9 +5,10 @@ import { faIdBadge } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 import { useReservationStore } from '../../store/store'
 
-const Tojrab2 = () => {
+const Tojrab2 = ({navigation}) => {
   const reservation = useReservationStore(state => state.reservation);
   const profileType = useReservationStore(state => state.profileType);
+  const annulerReservation = useReservationStore(state => state.annulerReservation);
   console.log(profileType);
   return (
     <View className="flex-1 bg-blue-50 justify-center items-center">
@@ -40,8 +41,8 @@ const Tojrab2 = () => {
           <Text className='font-bold text-sm'>{reservation.chaineCar}</Text>
         </View>
         <View className='flex-row justify-between mx-10 ' >
-          <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl '><Text>Annuler</Text></TouchableOpacity>
-          <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl ' ><Text>Suivant</Text></TouchableOpacity>
+          <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl ' onPress= {()=>annulerReservation(reservation,navigation)} ><Text>Annuler</Text></TouchableOpacity>
+          <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl ' onPress={()=>{navigation.navigate("Tojrab3")}} ><Text>Suivant</Text></TouchableOpacity>
         </View>
       </View>
     </View>

@@ -4,8 +4,10 @@ import { faIdBadge } from '@fortawesome/free-solid-svg-icons'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import QRCode from "react-native-qrcode-svg";
 import React from 'react'
+import { useReservationStore } from '../../store/store';
 
 const Res4 = () => {
+    const reservation = useReservationStore(state => state.reservation);
     return (
         <View className='flex-1 bg-blue-50 justify-center items-center'>
             <View className=' bg-red-300 items-center space-y-14 p-12 rounded-2xl'>
@@ -16,7 +18,7 @@ const Res4 = () => {
                         />
                         <Text className='font-bold text-sm'>Profile id</Text>
                     </View>
-                    <Text>605020100686</Text>
+                    <Text>{reservation.iccid}</Text>
                 </View>
                 <View>
                     <QRCode value='marhbee bik' size={200} />
