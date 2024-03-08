@@ -6,6 +6,7 @@ import { Menu, Button } from 'react-native-paper';
 import { useAuthStore } from '../store/store';
 function HomeScreen({ navigation }) {
     const logOut = useAuthStore(state => state.logOut);
+    const userData = useAuthStore(state => state.userData);
     const [visible, setVisible] = React.useState(false);
 
     const openMenu = () => setVisible(true);
@@ -30,8 +31,8 @@ function HomeScreen({ navigation }) {
                         anchor={<Button style={{ backgroundColor: 'transparent' }}></Button>}
                     >
                         <Menu.Item onPress={() => {logOut(navigation)}} title="Log out" />
-                        <Menu.Item onPress={() => { }} title="Item 2" />
-                        <Menu.Item onPress={() => { }} title="Item 3" />
+                        <Menu.Item onPress={() => { }} title= {userData.firstName} />
+                        <Menu.Item onPress={() => { }} title={userData.lastName}/>
                     </Menu>
                 </View>
             <View className='flex-1 bg-blue-200  items-center justify-center'>

@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Switch } from 'react-native'
 import React, { useState } from 'react';
-
+import axios from "axios";
 // import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
@@ -13,6 +13,15 @@ const Res3 = ({navigation}) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const [hidden, setHidden] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const confirmeReservation = async (reservation,navigation)=>{
+        try {
+            const response = await axios.patch("http://10.0.2.2:3100/api/reservations/confirmeReservation",reservation)
+            console.log(response);
+            navigation.navigate("Tojrab4")
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <View className="flex-1 bg-blue-50 justify-center items-center">
             <View className='flex-col space-y-20 bg-red-300 rounded-2xl p-8' >
@@ -43,7 +52,7 @@ const Res3 = ({navigation}) => {
                 {hidden && <Text className='mt-5' style={{ color: "red" }}>you need to select item</Text>}
                 <View className='flex-row justify-between mx-10 ' >
                     <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl 'onPress = {()=>{annulerReservation(reservation,navigation)}} ><Text>Annuler</Text></TouchableOpacity>
-                    <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl ' onPress = {isEnabled?()=>{navigation.navigate("Tojrab4")}:()=>{setHidden(!hidden)}} ><Text>Suivant</Text></TouchableOpacity>
+                    <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl ' onPress = {isEnabled?()=>{ confirmeReservation(reservation,navigation)}:()=>{setHidden(!hidden)}} ><Text>Suivant</Text></TouchableOpacity>
                 </View>
             </View>
         </View>

@@ -14,7 +14,7 @@ module.exports = {
         try {
             const lines = req.body.data.split('\n')
             console.log(lines);
-    
+
             const result = lines.map((line) => {
                 var obj = {
                     codeActivation: "",
@@ -28,7 +28,7 @@ module.exports = {
                     msisdn: "",
                     profileType: "",
                 }
-                
+
                 var imsi = line.match(/\b\d{15}\b/);
                 var iccid = line.match(/\b[A-Za-z0-9]{19,20}\b/);
                 var pin1 = (line.match(/\b\d{4}\b/g) || []).shift();
@@ -49,7 +49,7 @@ module.exports = {
             const cleanResult = result.filter((obj) => {
                 return obj.iccid !== null
             })
-    
+
             const reservations = await Reservation.bulkCreate(cleanResult)
             res.status(200).send(reservations);
         } catch (error) {
@@ -59,22 +59,23 @@ module.exports = {
     },
     getOneReservation: async (req, res) => {
         try {
-            const reservation = await Reservation.findOne({ where: { chaineCar: 'libre' } });
-            if (reservation) {
-                reservation.UserId = req.params.UserId;
-                reservation.chaineCar = 'reserver';
-                await reservation.save();
-                res.status(200).send(reservation);
+            if (req.params.profileType === "new") {
+                var reservation = await Reservation.findOne({
+                    where: {
+                        chaineCar: 'libre',
+                        profileType: "Nouvelle acquisation"
+                    }
+                });
+
+            }else if(req.params.profileType === "swap"){
+                var reservation = await Reservation.findOne({
+                    where: {
+                        chaineCar: 'libre',
+                        profileType: "Sim swap"
+                    }
+                });
             }
-        } catch (error) {
-            console.log(error);
-        }
-    },
-    getOneReservation: async (req, res) => {
-        try {
-            const reservation = await Reservation.findOne({ where: { chaineCar: 'libre' } });
             if (reservation) {
-                reservation.UserId = req.params.UserId;
                 reservation.chaineCar = 'reserver';
                 await reservation.save();
                 res.status(200).send(reservation);
@@ -84,6 +85,14 @@ module.exports = {
         }
     },
     cancelReservation: async (req, res) => {
+        try {
+            const reservation = await Reservation.update({...req.body, chaineCar: "libre", UserId: null, createdBy: null}, { where: { iccid: req.body.iccid } });
+            res.status(200).send(reservation);
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    confirmeReservation : async(req,res) => {
         try {
             const reservation = await Reservation.update(req.body, { where: { iccid: req.body.iccid } });
             res.status(200).send(reservation);

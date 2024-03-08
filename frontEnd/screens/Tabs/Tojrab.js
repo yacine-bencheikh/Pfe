@@ -4,7 +4,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import React, { useEffect, useState } from 'react'
 import { useAuthStore, useReservationStore } from '../../store/store';
 
-const Tojrab = ({navigation}) => {
+const Tojrab = ({ navigation }) => {
+  const userData = useAuthStore(state => state.userData);
   const setProfileType = useReservationStore(state => state.setProfileType);
   const setReservation = useReservationStore(state => state.setReservation);
   const reservation = useReservationStore(state => state.reservation);
@@ -17,18 +18,25 @@ const Tojrab = ({navigation}) => {
     { label: 'Sim swap', value: 'sim swap' },
     { label: 'Nouvelle acquisation', value: 'Nouvelle acquisation' }
   ]);
-  const getReservation = async (userId) => {
+  const getReservation = async (profileType) => {
     try {
-      const response = await axios.get(`http://10.0.2.2:3100/api/reservations/getOneRes/${userId}`);
-      setReservation( {...response.data,chaineCar: "libre"} );
+      if (!profileType) {
+        return;
+      } else if (profileType === "Nouvelle acquisation") {
+        const response = await axios.get(`http://10.0.2.2:3100/api/reservations/getOneRes/new`);
+        setReservation({ ...response.data, UserId: userData.id, createdBy: userData.createdBy });
+      } else if (profileType === "Sim swap") {
+        const response = await axios.get(`http://10.0.2.2:3100/api/reservations/getOneRes/swap`);
+        setReservation({ ...response.data, UserId: userData.id, createdBy: userData.createdBy });
+      }
     } catch (error) {
       console.log(error);
     }
   }
-  
+
   useEffect(() => {
-    getReservation(userId);
-  }, [])
+    getReservation(value);
+  }, [value])
   return (
     <View className='flex-1 bg-blue-50 justify-center items-center' >
       <View className='items-center mx-5 bg-red-300 rounded-2xl p-10 shadow-2xl' >
@@ -42,12 +50,12 @@ const Tojrab = ({navigation}) => {
           setItems={setItems}
           classNma='bg-gray-200'
           dropDownContainerStyle="className='bg-white'"
-          onChangeValue={value => {setProfileType(value)}}
+          onChangeValue={(value) => { setProfileType(value) }}
         />
-        {hidden && <Text className='mt-5' style={{color:"red"}}>you need to select item</Text>}
+        {hidden && <Text className='mt-5' style={{ color: "red" }}>you need to select item</Text>}
         <View className='flex-row justify-between w-52 mt-8' >
-          <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl mt-5' onPress={()=>{annulerReservation(reservation,navigation)}}><Text>Annuler</Text></TouchableOpacity>
-          <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl mt-5' onPress={value? ()=>{navigation.navigate("Tojrab2");}:()=>{setHidden(!hidden)}} ><Text>Suivant</Text></TouchableOpacity>
+          <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl mt-5' onPress={() => { annulerReservation(reservation, navigation) }}><Text>Annuler</Text></TouchableOpacity>
+          <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl mt-5' onPress={value ? () => { navigation.navigate("Tojrab2"); } : () => { setHidden(!hidden) }} ><Text>Suivant</Text></TouchableOpacity>
         </View>
       </View>
     </View>

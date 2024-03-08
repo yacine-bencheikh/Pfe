@@ -46,6 +46,7 @@ const getId = async () => {
 export const useAuthStore = create((set) => ({
     user: getId(),
     token: getToken(),
+    userData: {},
     setToken: (token) => set({ token: token }),
     setAuth: async (email, password) => {
         try {
@@ -58,7 +59,13 @@ export const useAuthStore = create((set) => ({
             const id = response.data.userId;
             storeId(id);
             set({ token: token, user: response.data.userId });
-            console.log(token, '\n', id);
+            const user = await axios.get(`http://10.0.2.2:3100/api/users/getOne`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            set({ userData: user.data });
+            console.log(token, '\n', id,'/n',user.data);
         } catch (error) {
             console.log("can't set auth \n", error);
         }
@@ -130,7 +137,7 @@ export const useReservationStore = create((set) => ({
     setReservation: (res) => set({ reservation: res }),
     annulerReservation: async (reservation,navigation) => {
         try {
-            const response = await axios.patch("http://10.0.2.2:3100/api/reservations/cancelRes", reservation)
+            const response = await axios.patch("http://10.0.2.2:3100/api/reservations/cancelRes", reservation);
             navigation.navigate("HomeScreen");
             console.log(response.data);
         } catch (error) {
