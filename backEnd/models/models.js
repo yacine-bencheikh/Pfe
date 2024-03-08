@@ -97,6 +97,16 @@ const Reservation = connection.define('Reservation', {
     },
     msisdn: {
         type: DataTypes.STRING(100)
+    },
+    profileType: {
+        type: DataTypes.ENUM,
+        values: ["Sim swap", "Nouvelle acquisation"],
+    },
+    UserId: {
+        type: DataTypes.INTEGER
+    },
+    createdBy:{
+        type: DataTypes.INTEGER
     }
 })
 
