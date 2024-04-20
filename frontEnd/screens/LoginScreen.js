@@ -1,10 +1,10 @@
-import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity,  } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuthStore } from '../store/store';
+import { useColor } from 'color-thief-react'
 
 const LoginScreen = ({ navigation }) => {
-
   const token = useAuthStore(state => state.token);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -20,13 +20,14 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate('HomeStack')
     }
   }
+
   return (
-    <SafeAreaView className='flex-1  justify-center items-center space-y-10' style={{ backgroundColor: "#080b12" }}>
+    <SafeAreaView className='flex-1  justify-center items-center space-y-10 bg-darkBg' >
       <View className='items-center space-y-4'>
         <Image className='rounded-2xl' source={require('../assets/coffe.png')} resizeMode='contain' style={{ width: 100, height: 100 }} />
-        <Text style={styles.textColor} className='font-bold text-lg' >Somthing</Text>
+        <Text className='font-bold text-lg text-textColor' >Somthing</Text>
       </View>
-      <Text style={styles.textColor}>Sign up to your account</Text>
+      <Text className='text-textColor'>Sign up to your account</Text>
       <View className='space-y-2 items-center justify-center'>
         <TextInput
           value={email}
@@ -35,8 +36,8 @@ const LoginScreen = ({ navigation }) => {
           placeholderTextColor='#b1b2b8'
           keyboardType='email-address'
           autoCapitalize='none'
-          className='border border-black-300 rounded-md px-5 py-4 w-80'
-          style={{ backgroundColor: '#10151b', color: '#b1b2b8' }}
+          className='border border-black-300 rounded-md px-5 py-4 w-80 bg-darkInput text-textColor'
+        
         />
         <TextInput
           value={password}
@@ -44,15 +45,15 @@ const LoginScreen = ({ navigation }) => {
           placeholder='Password '
           placeholderTextColor='#b1b2b8'
           secureTextEntry
-          className='border border-black-300 rounded-md px-5 py-4 w-80 mb-4'
-          style={{ backgroundColor: '#10151b', color: '#b1b2b8' }}
+          className='border border-black-300 rounded-md px-5 py-4 w-80 mb-4 bg-darkInput text-textColor'
+          
         />
 
         <TouchableOpacity onPress={handleLogin} disabled={loading} className='px-28 py-4 rounded-md justify-center items-center w-80 mb-6' style={{ backgroundColor: '#0630F4' }}>
           <Text style={{ color: '#fff' }} className='font-bold text-lg' >LOG IN</Text>
         </TouchableOpacity >
         <TouchableOpacity onPress={()=>{navigation.navigate('FaceIdAuthStack')}} >
-          <Text style={styles.textColor} className='mb-4'>Or Sign in with face identification</Text>
+          <Text className='text-textColor mb-4' >Or Sign in with face identification</Text>
         </TouchableOpacity>
         <View className='flex-row space-x-6'>
           <TouchableOpacity onPress={() => console.log()} style={{ backgroundColor: '#10151b' }} className='p-4 rounded-full' >

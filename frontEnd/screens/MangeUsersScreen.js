@@ -6,6 +6,7 @@ import { useAgentStore } from '../store/store'
 import { useAuthStore } from '../store/store'
 import DeleteModal from '../components/DeleteModal'
 import UpdateModal from '../components/UpdateModal'
+import { SafeAreaView } from 'react-native-safe-area-context'
 const MangeUsersScreen = ({ navigation }) => {
     const token = useAuthStore(state => state.token._j) || useAuthStore(state => state.token);
     const setAgents = useAgentStore(state => state.setAgents);
@@ -14,9 +15,11 @@ const MangeUsersScreen = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
     return (
+        <SafeAreaView className='bg-darkBg flex-1'>
         <View className=' m-4 my-2'  >
-            <Text className='font-bold text-xl mb-4'>Your Users</Text>
+            <Text className='font-bold text-xl mb-4 text-textColor'>Your Users</Text>
             <ScrollView style={{ maxHeight: 600, marginBottom: 12 }}>
+                
                 {agents.map((agent, index) => {
                     return <AgentCard key={index} agent={agent} setModalVisible={setModalVisible} setUpdateModalVisible={setUpdateModalVisible}  updateModalVisible={updateModalVisible} />
                 })}
@@ -25,6 +28,7 @@ const MangeUsersScreen = ({ navigation }) => {
             <UpdateModal setUpdateModalVisible={setUpdateModalVisible} updateModalVisible={updateModalVisible} />
             <PlusButton navigation={navigation} />
         </View>
+        </SafeAreaView>
     )
 }
 

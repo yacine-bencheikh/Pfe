@@ -28,9 +28,42 @@ const Res4 = () => {
         try {
         await Print.printAsync({
             html: `
-            <h3>Hello World</h3>
+    <html>
+    <head>
+        <style>
+            .frame {
+                border: 1px solid black;
+                padding: 10px;
+                margin: 10px;
+            }
+            .qr-frame {
+                border: 1px solid black;
+                padding: 10px;
+                margin: 10px;
+                text-align: center;
+            }
+            .iccid-frame {
+                border: 1px solid black;
+                padding: 10px;
+                margin: 10px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="frame">
+            <h3>${reservation.puc1}</h3>
+            <h3>${reservation.pin1}</h3>
+        </div>
+        <div class="qr-frame">
             <img src="data:image/jpeg;base64,${qrData}"/>
-            `,
+        </div>
+        <div class="iccid-frame">
+            <h3>${reservation.iccid}</h3>
+        </div>
+    </body>
+    </html>
+`,
         });
         } catch (error) {
         console.error('Error printing:', error);

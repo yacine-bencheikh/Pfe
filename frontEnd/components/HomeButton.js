@@ -6,9 +6,9 @@ const HomeButton = ({ onPress, title }) => {
         
         <TouchableOpacity
             onPress={onPress}
-            className='bg-blue-600 w-80 h-12 items-center justify-center rounded-lg my-2 px-5'
+            className='bg-darkInput w-80 h-12 items-center justify-center rounded-lg my-2 px-5'
         >
-            <Text className='text-white text-lg'>{title}</Text>
+            <Text className='text-textColor text-lg'>{title}</Text>
         </TouchableOpacity>
     );
 }

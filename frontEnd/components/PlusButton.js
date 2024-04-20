@@ -3,8 +3,8 @@ import React from 'react'
 
 const PlusButton = ({navigation}) => {
   return (
-    <TouchableOpacity onPress = {()=>{navigation.navigate('CreateUserScreen')}}  className='bg-orange-600 items-center w-14 h-14 justify-center rounded-full'>
-      <Text className='font bold text-2xl'>+</Text>
+    <TouchableOpacity onPress = {()=>{navigation.navigate('CreateUserScreen')}}  className='bg-blueButton items-center w-14 h-14 justify-center rounded-full'>
+      <Text className='font bold text-2xl text-textColor'>+</Text>
     </TouchableOpacity>
   )
 }

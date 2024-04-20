@@ -7,17 +7,17 @@ const AgentCard = ({ agent, setModalVisible, setUpdateModalVisible }) => {
 
     return (
         <View className='space-y-3 mb-3' >
-            <TouchableOpacity onPress={() => { setCurrentAgent(agent); setUpdateModalVisible(true) }} className='flex-row items-center space-x-3 bg-slate-300 rounded-2xl'>
+            <TouchableOpacity onPress={() => { setCurrentAgent(agent); setUpdateModalVisible(true) }} className='flex-row items-center space-x-3 bg-darkInput rounded-2xl'>
                 <View className=''>
                     <Image source={require('../assets/coffe.png')} resizeMode='contain' style={{ width: 112, height: 112 }} className='rounded-2xl' />
                 </View>
                 <View className='space-y-1'>
-                    <Text numberOfLines={1} ellipsizeMode='tail' className='font-bold text-lg'>{agent.firstName + " " + agent.lastName}</Text>
-                    <Text className='text-gray-400'>{agent.mobile}</Text>
-                    <Text className='text-gray-400'>{agent.role}</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail' className='font-bold text-lg text-textColor'>{agent.firstName + " " + agent.lastName}</Text>
+                    <Text className='text-textColor'>{agent.mobile}</Text>
+                    <Text className='text-textColor'>{agent.role}</Text>
                 </View>
                 <View className='justify-end items-end h-28' style={{ flex: 1 }} >
-                    <TouchableOpacity onPress={() => { setCurrentAgent(agent); setModalVisible(true) }} className='p-3  bg-orange-500 w-14 items-center rounded-tl-2xl rounded-br-2xl'><Text>X</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => { setCurrentAgent(agent); setModalVisible(true) }} className='p-3  bg-blueButton w-14 items-center rounded-tl-2xl rounded-br-2xl'><Text className='text-textColor'>X</Text></TouchableOpacity>
                 </View>
             </TouchableOpacity>
 

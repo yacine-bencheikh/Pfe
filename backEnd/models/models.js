@@ -110,6 +110,41 @@ const Reservation = connection.define('Reservation', {
     }
 })
 
+const client = connection.define('client', {
+    firstName: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+    },
+    lastName: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+    },
+    password: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+    },
+    phone: {
+        type: DataTypes.STRING(18),
+        allowNull: false
+    },
+    mobile: {
+        type: DataTypes.STRING(18),
+    },
+    address: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+    },
+    verified:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+
+})
+
 
 User.hasMany(Reservation);
 Reservation.belongsTo(User);
