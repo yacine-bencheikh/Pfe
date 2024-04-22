@@ -23,21 +23,22 @@ const Res3 = ({navigation}) => {
         }
     }
     return (
-        <View className="flex-1 bg-blue-50 justify-center items-center">
-            <View className='flex-col space-y-20 bg-red-300 rounded-2xl p-8' >
+        <View className="flex-1 bg-darkBg justify-center items-center">
+            <View className='flex-col space-y-20 bg-modalColor rounded-2xl p-8' >
                 <View className='flex-row space-x-36 items-center'>
                     <View className='flex-row space-x-1 items-center'>
                         <FontAwesomeIcon icon={faIdBadge}
                             size={16}
+                            color='#b1b2b8'
                         />
-                        <Text className='font-bold text-sm'>Profile id</Text>
+                        <Text className='font-bold text-sm text-textColor '>Profile id</Text>
                     </View>
                     <Text className='font-bold text-sm'>{reservation.iccid}</Text>
                 </View>
                 <View className='flex-row space-x-12'>
                     <View className='flex-row space-x-1 items-center'>
-                        <FontAwesomeIcon icon={faCircleCheck} />
-                        <Text className='font-bold text-sm'>Vérification de contrat</Text>
+                        <FontAwesomeIcon icon={faCircleCheck} size={16} color='#b1b2b8' />
+                        <Text className='font-bold text-sm text-textColor'>Vérification de contrat</Text>
                     </View>
                     <View className='flex-row justify-center items-center space-x-1'>
                         <Switch
@@ -46,7 +47,7 @@ const Res3 = ({navigation}) => {
                             ios_backgroundColor="#3e3e3e"
                             onValueChange={toggleSwitch}
                             value={isEnabled} />
-                        <Text className='font-bold text-sm'>D'accord</Text>
+                        <Text className='font-bold text-sm text-textColor '>D'accord</Text>
                     </View>
                 </View>
                 {hidden && <Text className='mt-5' style={{ color: "red" }}>you need to select item</Text>}

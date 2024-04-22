@@ -19,6 +19,7 @@ const MangeUsersScreen = ({ navigation }) => {
         <View className=' m-4 my-2'  >
             <Text className='font-bold text-xl mb-4 text-textColor'>Your Users</Text>
             <ScrollView style={{ maxHeight: 600, marginBottom: 12 }}>
+                <AgentCard agent={{firstName:"3ebcy"}}/>
                 
                 {agents.map((agent, index) => {
                     return <AgentCard key={index} agent={agent} setModalVisible={setModalVisible} setUpdateModalVisible={setUpdateModalVisible}  updateModalVisible={updateModalVisible} />

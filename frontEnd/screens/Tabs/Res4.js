@@ -70,22 +70,22 @@ const Res4 = () => {
         }
     };
     return (
-        <View className="flex-1 bg-blue-50 justify-center items-center">
-            <View className="bg-red-300 items-center space-y-14 p-12 rounded-2xl">
+        <View className="flex-1 bg-darkBg justify-center items-center">
+            <View className="bg-modalColor items-center space-y-14 p-12 rounded-2xl">
                 <View className="flex-row space-x-10 items-center">
                     <View className="flex-row space-x-1 items-center ">
-                        <FontAwesomeIcon icon={faIdBadge} size={16} />
-                        <Text className="font-bold text-sm">Profile id</Text>
+                        <FontAwesomeIcon icon={faIdBadge} size={16} color='#b1b2b8' />
+                        <Text className="font-bold text-sm text-textColor">Profile id</Text>
                     </View>
                     <Text>{reservation.iccid}</Text>
                 </View>
-                <View>
+                <View className='border-8 border-solid border-white rounded-3xl'>
                     <QRCode value="marhbee bik" size={200} getRef={svgRef}/>
                 </View>
                 <View>
                     <TouchableOpacity onPress={print} className="flex-row">
-                        <FontAwesomeIcon icon={faDownload} />
-                        <Text>Télecharger/Imprimé</Text>
+                        <FontAwesomeIcon icon={faDownload} size={16} color='#b1b2b8' />
+                        <Text className="text-textColor" >Télecharger/Imprimé</Text>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -18,12 +18,12 @@ const DeleteModal = ({ modalVisible, setModalVisible }) => {
             <View className='flex-1 justify-center items-center' >
                 <View style={styles.modalView}>
                     <View className='justify-end items-end w-72 mb-3 '>
-                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} className='mt-3' ><Text>X</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} className='mt-3' ><Text className='text-textColor' >X</Text></TouchableOpacity>
                     </View>
-                    <Text className='mt-5'>Are you sure to delete {currentAgent.firstName + " " + currentAgent.lastName}  forever?</Text>
+                    <Text className='mt-5 text-textColor'>Are you sure to delete {currentAgent.firstName + " " + currentAgent.lastName}  forever?</Text>
                     <View className='flex-row space-x-4 mt-10'>
-                        <TouchableOpacity className='rounded-2xl bg-blue-400 py-2 px-4' onPress={() => setModalVisible(!modalVisible)} ><Text>no</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={()=>{deleteAgent(currentAgent.id,token._j);setModalVisible(!modalVisible)}} className='rounded-2xl bg-yellow-300 py-2 px-4' ><Text>yes</Text></TouchableOpacity>
+                        <TouchableOpacity className='rounded-2xl bg-blueButton py-2 px-4' onPress={() => setModalVisible(!modalVisible)} ><Text className='font-bold' >no</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{deleteAgent(currentAgent.id,token._j);setModalVisible(!modalVisible)}} className='rounded-2xl bg-red-700 py-2 px-4' ><Text className='font-bold'>yes</Text></TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 0,
-        backgroundColor: 'white',
+        backgroundColor: '#1a1f2b',
         borderRadius: 20,
         paddingBottom: 35,
         paddingRight: 35,

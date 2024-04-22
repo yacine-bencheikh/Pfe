@@ -38,9 +38,9 @@ const Tojrab = ({ navigation }) => {
     getReservation(value);
   }, [value])
   return (
-    <View className='flex-1 bg-blue-50 justify-center items-center' >
-      <View className='items-center mx-5 bg-red-300 rounded-2xl p-10 shadow-2xl' >
-        <Text className='mb-10 font-bold text-xl '>Sélectionner le type de profile</Text>
+    <View className='flex-1 bg-darkBg justify-center items-center' >
+      <View className='items-center mx-5 bg-modalColor rounded-2xl p-10 shadow-2xl' >
+        <Text className='mb-10 font-bold text-xl text-textColor '>Sélectionner le type de profile</Text>
         <DropDownPicker
           open={open}
           value={value}
@@ -48,8 +48,10 @@ const Tojrab = ({ navigation }) => {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
-          classNma='bg-gray-200'
-          dropDownContainerStyle="className='bg-white'"
+          className='bg-darkInput'
+          style={{ backgroundColor: '#fff' }}
+          dropDownContainerStyle={{ backgroundColor: '#fff', color: '#fff' }}
+          labelStyle={{ color: '#b1b2b8', fontSize: 14 }} // Set your color here
           onChangeValue={(value) => { setProfileType(value) }}
         />
         {hidden && <Text className='mt-5' style={{ color: "red" }}>you need to select item</Text>}

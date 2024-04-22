@@ -11,14 +11,15 @@ const Tojrab2 = ({navigation}) => {
   const annulerReservation = useReservationStore(state => state.annulerReservation);
   console.log(profileType);
   return (
-    <View className="flex-1 bg-blue-50 justify-center items-center">
-      <View className='flex-col space-y-20 bg-red-300 rounded-2xl p-10' >
+    <View className="flex-1 bg-darkBg justify-center items-center">
+      <View className='flex-col space-y-20 bg-modalColor rounded-2xl p-10' >
         <View className='flex-row space-x-28 items-center'>
           <View className='flex-row space-x-1 items-center'>
             <FontAwesomeIcon icon={faIdBadge}
               size={16}
+              color='#b1b2b8'
             />
-            <Text className='font-bold text-sm'>Profile id</Text>
+            <Text className='font-bold text-sm text-textColor'>Profile id</Text>
           </View>
           <Text className='font-bold text-sm'>{reservation.iccid} </Text>
         </View>
@@ -27,20 +28,21 @@ const Tojrab2 = ({navigation}) => {
             <View className='flex-row space-x-1 items-center'>
               <FontAwesomeIcon icon={faIdBadge}
                 size={16}
+                color='#b1b2b8'
               />
-              <Text className='font-bold text-sm'>Profile id</Text>
+              <Text className='font-bold text-sm text-textColor '>Profile id</Text>
             </View>
             <TextInput className='border-2 border-gray-400 rounded-2xl px-2 py-1' placeholder='put you number'  keyboardType="numeric" />
           </View>
           : null}
         <View className='flex-row space-x-36'>
           <View className='flex-row space-x-1 items-center'>
-            <FontAwesomeIcon icon={faCircleCheck} />
-            <Text className='font-bold text-sm'>Etat</Text>
+            <FontAwesomeIcon icon={faCircleCheck} color='#b1b2b8' />
+            <Text className='font-bold text-sm text-textColor'>Etat</Text>
           </View>
           <Text className='font-bold text-sm'>{reservation.chaineCar}</Text>
         </View>
-        <View className='flex-row justify-between mx-10 ' >
+        <View className='flex-row justify-between mx-5' >
           <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl ' onPress= {()=>annulerReservation(reservation,navigation)} ><Text>Annuler</Text></TouchableOpacity>
           <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl ' onPress={()=>{navigation.navigate("Tojrab3")}} ><Text>Suivant</Text></TouchableOpacity>
         </View>

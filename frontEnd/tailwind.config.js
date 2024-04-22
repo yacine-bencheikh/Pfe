@@ -11,6 +11,7 @@ module.exports = {
         "darkInput": "#10151b",
         "blueButton": "#0630F4",
         "textColor": "#b1b2b8",
+        "modalColor": "#1a1f2b",
       }
     },
   },
