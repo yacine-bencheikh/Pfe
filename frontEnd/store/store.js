@@ -135,9 +135,12 @@ export const useReservationStore = create((set) => ({
     reservation: {},
     setProfileType: (type) => set({ profileType: type }),
     setReservation: (res) => set({ reservation: res }),
-    annulerReservation: async (reservation,navigation) => {
+    annulerReservation: async (reservation, navigation, token) => {
         try {
-            const response = await axios.patch("http://10.0.2.2:3100/api/reservations/cancelRes", reservation);
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            const response = await axios.patch("http://10.0.2.2:3100/api/reservations/cancelRes", reservation, config);
             navigation.navigate("HomeScreen");
             console.log(response.data);
         } catch (error) {

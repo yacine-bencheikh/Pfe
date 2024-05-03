@@ -1,5 +1,4 @@
-const { Reservation } = require("../models/models");
-const { getOne } = require("./controller.user");
+const { Reservation,Actions, User } = require("../models/models");
 
 module.exports = {
     getAllReservations: async (req, res) => {
@@ -78,7 +77,9 @@ module.exports = {
             if (reservation) {
                 reservation.chaineCar = 'reserver';
                 await reservation.save();
-                res.status(200).send(reservation);
+                const user = await User.findOne({ where: { id: req.userId } });
+                const action = await Actions.create({action: "reservation temporaire", iccid: reservation.iccid, UserId: req.userId, AdminId: user.createdBy, userName: user.firstName + " " + user.lastName,actionDate: Date.now()})
+                res.status(200).send( reservation);
             }
         } catch (error) {
             console.log(error);
@@ -87,7 +88,9 @@ module.exports = {
     cancelReservation: async (req, res) => {
         try {
             const reservation = await Reservation.update({...req.body, chaineCar: "libre", UserId: null, createdBy: null}, { where: { iccid: req.body.iccid } });
-            res.status(200).send(reservation);
+            const user = await User.findOne({ where: { id: req.userId } });
+            const action = await Actions.create({action: "Annulation de reservation",iccid: req.body.iccid, UserId: req.userId, AdminId: user.createdBy, userName: user.firstName + " " + user.lastName,actionDate: Date.now()})
+            res.status(200).send( reservation);
         } catch (error) {
             console.log(error);
         }
@@ -95,7 +98,9 @@ module.exports = {
     confirmeReservation : async(req,res) => {
         try {
             const reservation = await Reservation.update(req.body, { where: { iccid: req.body.iccid } });
-            res.status(200).send(reservation);
+            const user = await User.findOne({ where: { id: req.userId } });
+            const action = await Actions.create({action: "reservation complet", iccid: req.body.iccid, UserId: req.userId, AdminId: user.createdBy, userName: user.firstName + " " + user.lastName,actionDate: Date.now()})
+            res.status(200).send( action);
         } catch (error) {
             console.log(error);
         }

@@ -6,16 +6,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { faIdBadge } from '@fortawesome/free-solid-svg-icons'
 import { useReservationStore } from '../../store/store';
-
+import { useAuthStore } from '../../store/store';
 const Res3 = ({navigation}) => {
+    const token = useAuthStore(state => state.token);
     const reservation = useReservationStore(state => state.reservation);
     const annulerReservation = useReservationStore(state => state.annulerReservation);
     const [isEnabled, setIsEnabled] = useState(false);
     const [hidden, setHidden] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    const confirmeReservation = async (reservation,navigation)=>{
+    const confirmeReservation = async (reservation, navigation) => {
         try {
-            const response = await axios.patch("http://10.0.2.2:3100/api/reservations/confirmeReservation",reservation)
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            const obj = {
+                
+            };
+            const response = await axios.patch("http://10.0.2.2:3100/api/reservations/confirmeReservation", reservation, config);
             console.log(response);
             navigation.navigate("Tojrab4")
         } catch (error) {
@@ -52,7 +59,7 @@ const Res3 = ({navigation}) => {
                 </View>
                 {hidden && <Text className='mt-5' style={{ color: "red" }}>you need to select item</Text>}
                 <View className='flex-row justify-between mx-10 ' >
-                    <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl 'onPress = {()=>{annulerReservation(reservation,navigation)}} ><Text>Annuler</Text></TouchableOpacity>
+                    <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl 'onPress = {()=>{annulerReservation(reservation,navigation,token)}} ><Text>Annuler</Text></TouchableOpacity>
                     <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl ' onPress = {isEnabled?()=>{ confirmeReservation(reservation,navigation)}:()=>{setHidden(!hidden)}} ><Text>Suivant</Text></TouchableOpacity>
                 </View>
             </View>

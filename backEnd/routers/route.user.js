@@ -4,7 +4,7 @@ const authmiddleware = require('../Middlewares/authMiddleware')
 
 const userRoute = express.Router()
 
-userRoute.post('/register', register)
+userRoute.post('/register',authmiddleware, register)
 userRoute.post('/login', login)
 userRoute.get('/getOne',authmiddleware,getOne)
 userRoute.get('/getCrew',authmiddleware,getCrew)

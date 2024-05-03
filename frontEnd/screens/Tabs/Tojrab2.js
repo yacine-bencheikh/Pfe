@@ -4,8 +4,9 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { faIdBadge } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 import { useReservationStore } from '../../store/store'
-
+import { useAuthStore } from '../../store/store'
 const Tojrab2 = ({navigation}) => {
+  const token = useAuthStore(state => state.token);
   const reservation = useReservationStore(state => state.reservation);
   const profileType = useReservationStore(state => state.profileType);
   const annulerReservation = useReservationStore(state => state.annulerReservation);
@@ -43,7 +44,7 @@ const Tojrab2 = ({navigation}) => {
           <Text className='font-bold text-sm'>{reservation.chaineCar}</Text>
         </View>
         <View className='flex-row justify-between mx-5' >
-          <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl ' onPress= {()=>annulerReservation(reservation,navigation)} ><Text>Annuler</Text></TouchableOpacity>
+          <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl ' onPress= {()=>annulerReservation(reservation,navigation, token)} ><Text>Annuler</Text></TouchableOpacity>
           <TouchableOpacity className='bg-blue-500 px-6 py-2 rounded-2xl ' onPress={()=>{navigation.navigate("Tojrab3")}} ><Text>Suivant</Text></TouchableOpacity>
         </View>
       </View>

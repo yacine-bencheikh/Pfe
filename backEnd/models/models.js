@@ -110,47 +110,73 @@ const Reservation = connection.define('Reservation', {
     }
 })
 
-const client = connection.define('client', {
-    firstName: {
-        type: DataTypes.STRING(250),
-        allowNull: false
-    },
-    lastName: {
-        type: DataTypes.STRING(250),
-        allowNull: false
-    },
-    password: {
-        type: DataTypes.STRING(250),
-        allowNull: false
-    },
-    email: {
-        type: DataTypes.STRING(250),
-        allowNull: false
-    },
-    phone: {
-        type: DataTypes.STRING(18),
-        allowNull: false
-    },
-    mobile: {
-        type: DataTypes.STRING(18),
-    },
-    address: {
-        type: DataTypes.STRING(250),
-        allowNull: false
-    },
-    verified:{
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-    },
+// const client = connection.define('client', {
+//     firstName: {
+//         type: DataTypes.STRING(250),
+//         allowNull: false
+//     },
+//     lastName: {
+//         type: DataTypes.STRING(250),
+//         allowNull: false
+//     },
+//     password: {
+//         type: DataTypes.STRING(250),
+//         allowNull: false
+//     },
+//     email: {
+//         type: DataTypes.STRING(250),
+//         allowNull: false
+//     },
+//     phone: {
+//         type: DataTypes.STRING(18),
+//         allowNull: false
+//     },
+//     mobile: {
+//         type: DataTypes.STRING(18),
+//     },
+//     address: {
+//         type: DataTypes.STRING(250),
+//         allowNull: false
+//     },
+//     verified:{
+//         type: DataTypes.BOOLEAN,
+//         defaultValue: false
+//     },
 
+// })
+const Actions = connection.define('Actions', {
+    action: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+    },
+    UserId: {
+        type: DataTypes.INTEGER
+    },
+    userName: { type: DataTypes.STRING(250) },
+    actionDate: {
+        type: DataTypes.DATE,
+        allowNull: false
+    }, 
+    AdminId: {
+        type: DataTypes.INTEGER
+    },
+    iccid: {
+        type: DataTypes.STRING(100)
+    },
 })
-
 
 User.hasMany(Reservation);
 Reservation.belongsTo(User);
+
+User.hasMany(Actions);
+Actions.belongsTo(User);
+
+Actions.hasOne(Reservation);
+Reservation.belongsTo(Actions);
+
 // connection.sync({ force: true });
 
 
 
 
-module.exports = {User,Reservation};
+module.exports = {User,Reservation,Actions};

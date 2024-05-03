@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity,  } from 'react-native'
+import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuthStore } from '../store/store';
@@ -20,6 +20,9 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate('HomeStack')
     }
   }
+  if (loading) {
+    return <ActivityIndicator size="large" color="#080b12" className='justify-center items-center' />
+  }
 
   return (
     <SafeAreaView className='flex-1  justify-center items-center space-y-10 bg-darkBg' >
@@ -37,7 +40,7 @@ const LoginScreen = ({ navigation }) => {
           keyboardType='email-address'
           autoCapitalize='none'
           className='border border-black-300 rounded-md px-5 py-4 w-80 bg-darkInput text-textColor'
-        
+
         />
         <TextInput
           value={password}
@@ -46,13 +49,13 @@ const LoginScreen = ({ navigation }) => {
           placeholderTextColor='#b1b2b8'
           secureTextEntry
           className='border border-black-300 rounded-md px-5 py-4 w-80 mb-4 bg-darkInput text-textColor'
-          
+
         />
 
         <TouchableOpacity onPress={handleLogin} disabled={loading} className='px-28 py-4 rounded-md justify-center items-center w-80 mb-6' style={{ backgroundColor: '#0630F4' }}>
           <Text style={{ color: '#fff' }} className='font-bold text-lg' >LOG IN</Text>
         </TouchableOpacity >
-        <TouchableOpacity onPress={()=>{navigation.navigate('FaceIdAuthStack')}} >
+        <TouchableOpacity onPress={() => { navigation.navigate('FaceIdAuthStack') }} >
           <Text className='text-textColor mb-4' >Or Sign in with face identification</Text>
         </TouchableOpacity>
         <View className='flex-row space-x-6'>
@@ -64,8 +67,6 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-
-
     </SafeAreaView>
   )
 }

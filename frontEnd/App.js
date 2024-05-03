@@ -10,9 +10,9 @@ export default function App() {
   return (
     <PaperProvider>
     <NavigationContainer>
-    <HomeStack/>          
+    {/* <HomeStack/>           */}
 
-      {/* {!!token._j ? <HomeStack/> : <AuthStack/>}  */}
+      {!!token._j ? <HomeStack/> : <AuthStack/>} 
       <StatusBar style="auto" />
     </NavigationContainer>
     </PaperProvider>

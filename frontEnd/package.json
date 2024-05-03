@@ -19,7 +19,7 @@
     "@react-navigation/stack": "^6.3.21",
     "axios": "^1.6.7",
     "color-thief-react": "^2.1.0",
-    "expo": "~50.0.14",
+    "expo": "~50.0.17",
     "expo-document-picker": "~11.10.1",
     "expo-file-system": "~16.0.8",
     "expo-image-picker": "~14.7.1",

@@ -5,10 +5,10 @@ import { useAuthStore } from '../store/store';
 
 
 const CreateUserScreen = () => {
-    const id = useAuthStore(state => state.user._j) || useAuthStore(state => state.user);
+    const token = useAuthStore(state => state.token);
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([
-        { label: 'admin', value: 'admin' },
+        { label: 'admin', value: 'admiidn' },
         { label: 'agent', value: 'agent' }
     ]);
     const [value, setValue] = useState(null);
@@ -25,6 +25,7 @@ const CreateUserScreen = () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 firstName,
@@ -36,13 +37,9 @@ const CreateUserScreen = () => {
                 address,
                 role,
                 lastcnct: new Date().toISOString(),
-                createdBy: id,
             }),
         });
-    
-        const data = await response.json();
-        console.log(data);
-    };
+    }
     return (
         <SafeAreaView className='flex-1 justify-center items-center' style={{ backgroundColor: '#080b12' }}>
             <View className='justify-center items-center m-4'>

@@ -8,7 +8,8 @@ module.exports = {
             const hashedPass = await bcrypt.hash(req.body.password, 10);
             const result = await User.create({
                 ...req.body,
-                password: hashedPass
+                password: hashedPass,
+                createdBy: req.userId
             });
             res.status(201).send({
                 message: 'user created successfully',
@@ -41,7 +42,7 @@ module.exports = {
             );
             res.status(200).json({
                 message: "token created successfully",
-                userId: result.id,
+                // userId: result.id,
                 token: token
             });
         } catch (error) {
