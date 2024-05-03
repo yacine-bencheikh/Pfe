@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { ZIGN } from '@env';
+import * as FileSystem from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
 
 const storeToken = async (token) => {
     try {
@@ -149,3 +152,130 @@ export const useReservationStore = create((set) => ({
     }
 
 }))
+
+
+
+
+
+
+export const useApiStore = create((set) => ({
+    session_id: '',
+    credentiel: null,
+    setCredentiel: (credentiel) => set({ credentiel: credentiel }),
+    provider_folder_id: '',
+    documentsPath: [],
+    pickedDocumentPath: [],
+    addItem: (item) => {
+        set(state => ({ documentsPath: [...state.documentsPath, item] }));
+    },
+    addPickedItem: (item) => {
+        set(state => ({ pickedDocumentPath: [...state.pickedDocumentPath, item] }));
+    },
+    emptyPickedItems: () => {
+        set({ pickedDocumentPath: [] });
+    },
+
+    createSession: async () => {
+        const Step1Url = 'https://test.zignsec.com/v3/eid/scanningsessions';
+        const body = {
+            "locale": "en",
+            "analysis_types": ["selfie", "document"]
+        }
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `${ZIGN}` // Assuming ZIGN is a variable that holds your token
+        };
+        try {
+            const response = await axios.post(Step1Url, body, { headers });
+            set({ session_id: response.data.session_id });
+            set({ provider_folder_id: response.data.provider_folder_id });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    addDocs: async (documentsPath, session_id, provider_folder_id, documentType) => {
+
+        console.log("document type  ", documentType);
+        const reference = provider_folder_id;
+        const Step2Url = `https://test.zignsec.com/v3/eid/scanningsessions/${session_id}/documents?documentType=${documentType}&reference=${reference}`;
+
+        const headers = {
+            'Authorization': `${ZIGN}`,
+            'Content-Type': `multipart/form-data`,
+        };
+
+        for (let index = 0; index < 3; index++) {
+            const fileUri = documentsPath[index];
+            const fileInfo = await FileSystem.getInfoAsync(fileUri);
+            if (!fileInfo.exists) {
+                console.error("File doesn't exist");
+                continue;
+            }
+            const formData = new FormData();
+            formData.append('document', {
+                uri: fileUri,
+                type: 'image/jpeg', // or whichever type your file is
+                name: `Frontal_face_${index}.jpg`, // Unique name for each file
+            });
+            try {
+                const response = await axios.post(Step2Url, formData, { headers });
+                console.log(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    },
+    startAnalysis: async (scanningSessionId) => {
+        const rawTimeZoneOffset = new Date().getTimezoneOffset();
+        const timeZoneOffset = -rawTimeZoneOffset;
+        console.log("timeZoneOffset", timeZoneOffset);
+        const url = `https://test.zignsec.com/v3/eid/scanningsessions/${scanningSessionId}/analyses?timeZoneOffset=${timeZoneOffset}`;
+
+        const headers = {
+            'Authorization': `${ZIGN}`,
+        };
+
+        const data = {
+            "analysis_types": ["selfie", "document"]
+        };
+
+        try {
+            const response = await axios.post(url, data, { headers });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    pickFromGallery: async (addPickedItem) => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        console.log(result);
+        if (!result.canceled) {
+            addPickedItem(result.assets[0].uri);
+        }
+    },
+    getAnalysesResult: async (scanningSessionId) => {
+        const url = `https://test.zignsec.com/v3/eid/scanningsessions/${scanningSessionId}/analyses`;
+
+        const headers = {
+            'Authorization': `${ZIGN}`,
+        };
+
+        try {
+            const response = await axios.get(url, { headers });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+}));
+
+
