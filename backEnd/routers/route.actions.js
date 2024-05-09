@@ -5,6 +5,6 @@ const authmiddleware = require('../Middlewares/authMiddleware');
 
 const actionsRoute = express.Router();
 
-actionsRoute.get('/getAllActions', getAllActions);
+actionsRoute.get('/getAllActions',authmiddleware, getAllActions);
 
 module.exports = actionsRoute;

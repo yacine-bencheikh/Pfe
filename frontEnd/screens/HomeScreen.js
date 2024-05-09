@@ -46,7 +46,7 @@ function HomeScreen({ navigation }) {
                     <HomeButton title={'Détails des réservations'} />
                     <HomeButton title={'Gestion des utilisateurs'} onPress={() => navigation.navigate('MangeUsersStack')} />
                     <HomeButton title={'Uploder un fichier'} onPress={() => navigation.navigate('UploadFileStack')}/>
-                    <HomeButton title={'Statistiques'} />
+                    <HomeButton title={'Statistiques'} onPress={()=>navigation.navigate("StatistiqueStack")}/>
                 </View>
             </View>
         </SafeAreaView >

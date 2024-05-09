@@ -4,7 +4,7 @@ module.exports = {
 
     getAllActions: async (req, res) => {
         try {
-            const actions = await Actions.findAll();
+            const actions = await Actions.findAll({where:{AdminId:req.userId}});
             res.status(200).send(actions);
         } catch (error) {
             res.status(400).send({ message: 'you need to authenticate', error: error });
