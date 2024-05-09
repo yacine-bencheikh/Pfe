@@ -54,8 +54,8 @@ const PickCredentielScreen = ({ navigation }) => {
             >
                 <Text style={styles.nextButtonText}>Next</Text>
             </TouchableOpacity>
-            {maw && pickedDocumentPath.map((e) => {
-                return <Image source={{ uri: e }} style={{ width: 200, height: 200 }} />
+            {maw && pickedDocumentPath.map((e,index) => {
+                return <Image key={index} source={{ uri: e }} style={{ width: 200, height: 200 }} />
             })}
         </View>
     );

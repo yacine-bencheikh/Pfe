@@ -68,7 +68,7 @@ export const useAuthStore = create((set) => ({
                 }
             })
             set({ userData: user.data });
-            console.log(token, '\n', id,'/n',user.data);
+            console.log(token, '\n', id, '/n', user.data);
         } catch (error) {
             console.log("can't set auth \n", error);
         }
@@ -165,8 +165,8 @@ export const useApiStore = create((set) => ({
     provider_folder_id: '',
     documentsPath: [],
     pickedDocumentPath: [],
-    addItem: (item) => {
-        set(state => ({ documentsPath: [...state.documentsPath, item] }));
+    addItem: (array) => {
+        set({ documentsPath: array });
     },
     addPickedItem: (item) => {
         set(state => ({ pickedDocumentPath: [...state.pickedDocumentPath, item] }));
@@ -189,25 +189,25 @@ export const useApiStore = create((set) => ({
             const response = await axios.post(Step1Url, body, { headers });
             set({ session_id: response.data.session_id });
             set({ provider_folder_id: response.data.provider_folder_id });
-            console.log(response.data);
+            return response.data.session_id
         } catch (error) {
             console.error(error);
         }
     },
 
-    addDocs: async (documentsPath, session_id, provider_folder_id, documentType) => {
+    addDocs: async (session_id, credentiel, pickedDocumentPath, provider_folder_id) => {
 
-        console.log("document type  ", documentType);
+        // console.log("document type  ", documentType);
         const reference = provider_folder_id;
-        const Step2Url = `https://test.zignsec.com/v3/eid/scanningsessions/${session_id}/documents?documentType=${documentType}&reference=${reference}`;
+        const Step2Url = `https://test.zignsec.com/v3/eid/scanningsessions/${session_id}/documents?documentType=${credentiel}&reference=${reference}`;
 
         const headers = {
             'Authorization': `${ZIGN}`,
             'Content-Type': `multipart/form-data`,
         };
 
-        for (let index = 0; index < 3; index++) {
-            const fileUri = documentsPath[index];
+        for (let index = 0; index < pickedDocumentPath.length; index++) {
+            const fileUri = pickedDocumentPath[index];
             const fileInfo = await FileSystem.getInfoAsync(fileUri);
             if (!fileInfo.exists) {
                 console.error("File doesn't exist");
@@ -227,11 +227,40 @@ export const useApiStore = create((set) => ({
             }
         }
     },
-    startAnalysis: async (scanningSessionId) => {
+    addSelfies: async (session_id, documentsPath, provider_folder_id) => {
+        const reference = provider_folder_id;
+        const Step2Url = `https://test.zignsec.com/v3/eid/scanningsessions/${session_id}/documents?documentType=Selfie&reference=${reference}`;
+        const headers = {
+            'Authorization': `${ZIGN}`,
+            'Content-Type': `multipart/form-data`,
+        };
+        for (let index = 0; index < documentsPath.length; index++) {
+            const fileUri = documentsPath[index].uri;
+            console.log("haw cv");
+            const fileInfo = await FileSystem.getInfoAsync(fileUri);
+            if (!fileInfo.exists) {
+                console.error("File doesn't exist");
+                continue;
+            }
+            const formData = new FormData();
+            formData.append('document', {
+                uri: fileUri,
+                type: 'image/jpeg', // or whichever type your file is
+                name: `Frontal_face_${index}.jpg`, // Unique name for each file
+            });
+            try {
+                const response = await axios.post(Step2Url, formData, { headers });
+                console.log(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    },
+    startAnalysis: async (session_id) => {
         const rawTimeZoneOffset = new Date().getTimezoneOffset();
         const timeZoneOffset = -rawTimeZoneOffset;
         console.log("timeZoneOffset", timeZoneOffset);
-        const url = `https://test.zignsec.com/v3/eid/scanningsessions/${scanningSessionId}/analyses?timeZoneOffset=${timeZoneOffset}`;
+        const url = `https://test.zignsec.com/v3/eid/scanningsessions/${session_id}/analyses?timeZoneOffset=${timeZoneOffset}`;
 
         const headers = {
             'Authorization': `${ZIGN}`,
@@ -249,20 +278,8 @@ export const useApiStore = create((set) => ({
         }
     },
 
-    pickFromGallery: async (addPickedItem) => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-        console.log(result);
-        if (!result.canceled) {
-            addPickedItem(result.assets[0].uri);
-        }
-    },
-    getAnalysesResult: async (scanningSessionId) => {
-        const url = `https://test.zignsec.com/v3/eid/scanningsessions/${scanningSessionId}/analyses`;
+    getAnalysesResult: async (session_id) => {
+        const url = `https://test.zignsec.com/v3/eid/scanningsessions/${session_id}/analyses`;
 
         const headers = {
             'Authorization': `${ZIGN}`,
@@ -270,11 +287,35 @@ export const useApiStore = create((set) => ({
 
         try {
             const response = await axios.get(url, { headers });
-            console.log(response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
         }
+    },
+    kycProcess: async (createSession, addDocs, addSelfies, startAnalysis, getAnalysesResult, provider_folder_id, credentiel, pickedDocumentPath, documentsPath) => {
+        try {
+            const session_id = await createSession()
+            await addDocs(session_id, credentiel, pickedDocumentPath, provider_folder_id)
+
+            await addSelfies(session_id, documentsPath, provider_folder_id)
+
+            await startAnalysis(session_id)
+
+            const resp4 = await getAnalysesResult(session_id)
+            console.log("anal_summ", resp4.analysis_summary.id_document_summary.fields.Document_Number);
+            
+            return resp4.total_result
+
+        }
+
+        catch (error) {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
+
+        }
     }
+
 
 }));
 
