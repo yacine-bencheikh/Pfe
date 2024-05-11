@@ -1,33 +1,36 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect,useState} from 'react'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAuthStore } from '../store/store'
-
+import { SafeAreaView } from 'react-native-safe-area-context'
+import {Picker} from "@react-native-picker/picker"
+import ActionTuple from '../components/ActionTuple'
 const Statistique = () => {
   const token = useAuthStore(state => state.token)
-  const [actions,setActions] = useState([])
+  const [data, setData] = useState([]); // State to hold the data
+
   const getAllActions = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:3100/api/actions/getAllActions', {
+      const response = await axios.get('http://10.0.2.2:3100/api/actions/getAllActions', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      return response.data;
+      setData(response.data); // Set the data
     } catch (error) {
       console.error(error);
     }
   }
 
   useEffect(() => {
-    setActions(getAllActions());
+    getAllActions();
   }, []);
 
   return (
-    <View>
-      <Text>Statistique</Text>
+    <SafeAreaView>
+      <ActionTuple/>
+    </SafeAreaView>
       
-    </View>
   )
 }
 
