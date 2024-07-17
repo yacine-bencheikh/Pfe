@@ -77,7 +77,7 @@ const Res4 = () => {
                         <FontAwesomeIcon icon={faIdBadge} size={16} color='#b1b2b8' />
                         <Text className="font-bold text-sm text-textColor">Profile id</Text>
                     </View>
-                    <Text>{reservation.iccid}</Text>
+                    <Text className="font-bold text-sm text-textColor">{reservation.iccid}</Text>
                 </View>
                 <View className='border-8 border-solid border-white rounded-3xl'>
                     <QRCode value="marhbee bik" size={200} getRef={svgRef}/>

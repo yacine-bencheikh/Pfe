@@ -22,7 +22,7 @@ const Tojrab2 = ({navigation}) => {
             />
             <Text className='font-bold text-sm text-textColor'>Profile id</Text>
           </View>
-          <Text className='font-bold text-sm'>{reservation.iccid} </Text>
+          <Text className='font-bold text-sm text-textColor'>{reservation.iccid} </Text>
         </View>
         {profileType === 'sim swap' ?
           <View className='flex-row space-x-28 items-center'>
@@ -33,7 +33,7 @@ const Tojrab2 = ({navigation}) => {
               />
               <Text className='font-bold text-sm text-textColor '>Profile id</Text>
             </View>
-            <TextInput className='border-2 border-gray-400 rounded-2xl px-2 py-1' placeholder='put you number'  keyboardType="numeric" />
+            <TextInput className='border-2 border-gray-400 rounded-2xl px-2 py-1 text-textColor' placeholder='put you number'  keyboardType="numeric" placeholderTextColor="#b1b2b8" />
           </View>
           : null}
         <View className='flex-row space-x-36'>
@@ -41,7 +41,7 @@ const Tojrab2 = ({navigation}) => {
             <FontAwesomeIcon icon={faCircleCheck} color='#b1b2b8' />
             <Text className='font-bold text-sm text-textColor'>Etat</Text>
           </View>
-          <Text className='font-bold text-sm'>{reservation.chaineCar}</Text>
+          <Text className='font-bold text-sm text-textColor'>{reservation.chaineCar}</Text>
         </View>
         <View className='flex-row justify-between mx-5' >
           <TouchableOpacity className='bg-red-500 px-6 py-2 rounded-2xl ' onPress= {()=>annulerReservation(reservation,navigation, token)} ><Text>Annuler</Text></TouchableOpacity>

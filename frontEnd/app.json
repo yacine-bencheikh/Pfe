@@ -28,7 +28,8 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "ZIGN": "ZIGN"
+      "ZIGN": "ZIGN",
+      "publishable_key":"publishable_key"
     }
   }
 }

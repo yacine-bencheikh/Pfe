@@ -105,7 +105,6 @@ export const useAgentStore = create((set) => ({
     },
     deleteAgent: async (id, token) => {
         try {
-            console.log(id, token);
             await axios.delete(`http://10.0.2.2:3100/api/users/destroy/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -23,7 +23,7 @@ const DeleteModal = ({ modalVisible, setModalVisible }) => {
                     <Text className='mt-5 text-textColor'>Are you sure to delete {currentAgent.firstName + " " + currentAgent.lastName}  forever?</Text>
                     <View className='flex-row space-x-4 mt-10'>
                         <TouchableOpacity className='rounded-2xl bg-blueButton py-2 px-4' onPress={() => setModalVisible(!modalVisible)} ><Text className='font-bold' >no</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={()=>{deleteAgent(currentAgent.id,token._j);setModalVisible(!modalVisible)}} className='rounded-2xl bg-red-700 py-2 px-4' ><Text className='font-bold'>yes</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{console.log(currentAgent.id,'\n',token); deleteAgent(currentAgent.id,token);setModalVisible(!modalVisible)}} className='rounded-2xl bg-red-700 py-2 px-4' ><Text className='font-bold'>yes</Text></TouchableOpacity>
                     </View>
                 </View>
             </View>

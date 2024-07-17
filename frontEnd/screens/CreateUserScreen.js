@@ -8,7 +8,7 @@ const CreateUserScreen = () => {
     const token = useAuthStore(state => state.token);
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([
-        { label: 'admin', value: 'admiidn' },
+        { label: 'admin', value: 'admin' },
         { label: 'agent', value: 'agent' }
     ]);
     const [value, setValue] = useState(null);
@@ -21,6 +21,7 @@ const CreateUserScreen = () => {
     const [address, setAddress] = useState('');
     const [role, setRole] = useState('');
     const registerUser = async () => {
+        console.log(token);
         const response = await fetch('http://10.0.2.2:3100/api/users/register', {
             method: 'POST',
             headers: {

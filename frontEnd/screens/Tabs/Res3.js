@@ -40,7 +40,7 @@ const Res3 = ({navigation}) => {
                         />
                         <Text className='font-bold text-sm text-textColor '>Profile id</Text>
                     </View>
-                    <Text className='font-bold text-sm'>{reservation.iccid}</Text>
+                    <Text className='font-bold text-sm text-textColor'>{reservation.iccid}</Text>
                 </View>
                 <View className='flex-row space-x-12'>
                     <View className='flex-row space-x-1 items-center'>

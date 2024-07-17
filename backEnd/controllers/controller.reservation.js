@@ -89,7 +89,7 @@ module.exports = {
         try {
             const reservation = await Reservation.update({...req.body, chaineCar: "libre", UserId: null, createdBy: null}, { where: { iccid: req.body.iccid } });
             const user = await User.findOne({ where: { id: req.userId } });
-            const action = await Actions.create({action: "Annulation de reservation",iccid: req.body.iccid, UserId: req.userId, AdminId: user.createdBy, userName: user.firstName + " " + user.lastName,actionDate: Date.now()})
+            const action = await Actions.create({action: "reservation annuler",iccid: req.body.iccid, UserId: req.userId, AdminId: user.createdBy, userName: user.firstName + " " + user.lastName,actionDate: Date.now()})
             res.status(200).send( reservation);
         } catch (error) {
             console.log(error);

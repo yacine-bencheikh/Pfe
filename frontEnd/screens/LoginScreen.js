@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuthStore } from '../store/store';
 import { useColor } from 'color-thief-react'
+import axios from 'axios';
+import { useStripe } from '@stripe/stripe-react-native';
 
 const LoginScreen = ({ navigation }) => {
   const token = useAuthStore(state => state.token);
@@ -10,6 +12,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const setAuth = useAuthStore(state => state.setAuth);
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const handleLogin = async () => {
     setLoading(true);
     console.log(email + '\n' + password);
@@ -24,6 +27,34 @@ const LoginScreen = ({ navigation }) => {
     return <ActivityIndicator size="large" color="#080b12" className='justify-center items-center' />
   }
 
+  const createIntent = async () => {
+    try {
+      response = await axios.post('http://192.168.1.7:3100/api/stripe/stripePayment', { amount: 5000 })
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const onCheckOut = async () => {
+    try {
+        const response = await createIntent();
+        if(response.error){
+          console.log(error);
+          return
+        }
+        const initResponse = await initPaymentSheet({
+          merchantDisplayName: "prisma.int",
+          paymentIntentClientSecret: response.data.payment,
+        });
+        if(initResponse.error){
+          console.log(initResponse.error);
+          return
+        }
+        await presentPaymentSheet();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <SafeAreaView className='flex-1  justify-center items-center space-y-10 bg-darkBg' >
       <View className='items-center space-y-4'>
@@ -59,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
           <Text className='text-textColor mb-4' >Or Sign in with face identification</Text>
         </TouchableOpacity>
         <View className='flex-row space-x-6'>
-          <TouchableOpacity onPress={() => console.log()} style={{ backgroundColor: '#10151b' }} className='p-4 rounded-full' >
+          <TouchableOpacity onPress={() => onCheckOut()} style={{ backgroundColor: '#10151b' }} className='p-4 rounded-full' >
             <Image source={require('../assets/google.png')} resizeMode='contain' style={{ width: 30, height: 30, tintColor: '#b1b2b8' }} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log(token)} style={{ backgroundColor: '#10151b' }} className='p-4 rounded-full' >

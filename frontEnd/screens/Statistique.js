@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View,ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAuthStore } from '../store/store'
@@ -16,6 +16,7 @@ const Statistique = () => {
           Authorization: `Bearer ${token}`
         }
       });
+
       setData(response.data); // Set the data
     } catch (error) {
       console.error(error);
@@ -26,12 +27,18 @@ const Statistique = () => {
     getAllActions();
   }, []);
 
-  return (
-    <SafeAreaView>
-      <ActionTuple/>
-    </SafeAreaView>
-      
-  )
+  if(!data.length){
+    return (
+      <ActivityIndicator/>
+    )}
+    else{
+      return (
+        <SafeAreaView>
+          <ActionTuple items={data} />
+        </SafeAreaView>
+          
+      )
+  }
 }
 
 export default Statistique
